@@ -12,4 +12,26 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
+// --------- Import Routes -------------
+import userRoute from "./routes/user.routes.js";
+import ApiError from "./utils/ApiError.js";
+import errorHandler from "./utils/errorHandler.js";
+
+// ----------- Routes declaration ---------
+app.use("/api/v1/user", userRoute);
+
+// ----------- It is used for incorrect endpoint and wrong api requests ----------
+app.use("*", (req, res, next) => {
+  // =============== x ==================
+  const err = new ApiError(
+    404,
+    "fail",
+    `Can't find ${req.originalUrl} on the server`
+  );
+  next(err);
+});
+
+// ----------------- Error handler ---------
+app.use(errorHandler);
+
 export { app };
