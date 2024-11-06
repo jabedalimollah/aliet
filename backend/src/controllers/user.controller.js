@@ -5,7 +5,8 @@ import bcrypt from "bcryptjs";
 import ApiResponse from "../utils/ApiResponse.js";
 import jwt from "jsonwebtoken";
 import getDataURI from "../utils/datauri.js";
-import { cloudinary, uploadOnCloudinary } from "../utils/cloudinary.js";
+import { Post } from "../models/post.model.js";
+import { cloudinary } from "../utils/cloudinary.js";
 
 // =================== Register ===================
 const register = asyncErrorHandler(async (req, res) => {
@@ -55,8 +56,18 @@ const login = asyncErrorHandler(async (req, res) => {
   const token = await jwt.sign(payload, process.env.JWT_SECRET_KEY, {
     expiresIn: "30d",
   });
+  const populatedPosts = await Promise.all(
+    user.posts?.map(async (postId) => {
+      const post = await Post.findById(postId);
+      if (post.author.equals(user._id)) {
+        return post;
+      }
+      return null;
+    })
+  );
   // ------------- Password Remove ---------
   const userData = user.toObject();
+  userData.posts = populatedPosts;
   delete userData.password;
   return res
     .status(200)
