@@ -7,24 +7,23 @@ import { toast } from "sonner";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Loader2 } from "lucide-react";
 
-const Signup = () => {
+const Login = () => {
   const [inputFields, setInputFields] = useState({
-    username: "",
     email: "",
     password: "",
   });
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate;
+  const navigate = useNavigate();
   const changeEventHandler = (e) => {
     setInputFields({ ...inputFields, [e.target.name]: e.target.value });
   };
-  const handleSignup = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     // console.log(inputFields);
     try {
       setLoading(true);
       const res = await axios.post(
-        `${import.meta.env.VITE_APP_API_KEY}/user/register`,
+        `${import.meta.env.VITE_APP_API_KEY}/user/login`,
         inputFields,
         {
           headers: {
@@ -37,7 +36,6 @@ const Signup = () => {
       if (res.data.statusInfo == "success") {
         toast.success(res.data.message);
         setInputFields({
-          username: "",
           email: "",
           password: "",
         });
@@ -55,25 +53,15 @@ const Signup = () => {
       <form
         action=""
         className="shadow-lg flex flex-col gap-5 p-8"
-        onSubmit={handleSignup}
+        onSubmit={handleLogin}
       >
         <div className="my-4">
           <h1 className="text-center font-bold text-xl">Logo</h1>
           <p className="text-sm text-center">
-            Signup to see photos & videos from your friends
+            Login to see photos & videos from your friends
           </p>
         </div>
-        <div>
-          <Label>Username</Label>
 
-          <Input
-            type="text"
-            name="username"
-            value={inputFields.username}
-            onChange={changeEventHandler}
-            className="focus-visible:ring-transparent my-2"
-          />
-        </div>
         <div>
           <Label>Email</Label>
 
@@ -101,13 +89,13 @@ const Signup = () => {
             <Loader2 className="mr-2 h-4 m-4 animate-spin" /> Please wait
           </Button>
         ) : (
-          <Button type="submit">Signup</Button>
+          <Button type="submit">Login</Button>
         )}
-        {/* <Button type="submit">Signup</Button> */}
+
         <span className="text-center">
-          Already have an account?
-          <NavLink to={"/login"} className={"text-blue-600"}>
-            Login
+          Dosen't have an account?
+          <NavLink to={"/signup"} className={"text-blue-600"}>
+            Signup
           </NavLink>{" "}
         </span>
       </form>
@@ -115,4 +103,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default Login;
