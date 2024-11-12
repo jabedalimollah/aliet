@@ -2,7 +2,7 @@ import ApiError from "../utils/ApiError.js";
 import asyncErrorHandler from "../utils/asyncErrorHandler.js";
 import ApiResponse from "../utils/ApiResponse.js";
 import sharp from "sharp";
-import { cloudinary } from "../utils/cloudinary.js";
+import { cloudinary, deleteOnCloudinary } from "../utils/cloudinary.js";
 import { Post } from "../models/post.model.js";
 import { User } from "../models/user.model.js";
 import { Comment } from "../models/comment.model.js";
@@ -182,6 +182,10 @@ const deletePost = asyncErrorHandler(async (req, res) => {
     throw new ApiError(403, "error", "Unauthorized");
   }
   await Post.findByIdAndDelete(postId);
+
+  const publicId = post.image.split("/").pop().split(".")[0]; //get public id from profile image url
+  // ---------------------- Delete profile image from cloudinary --------------
+  const response = await deleteOnCloudinary(publicId);
 
   let user = await User.findById(authorId);
   user.posts = user.posts.filter((id) => id.toString() != postId);
