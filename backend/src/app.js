@@ -1,9 +1,10 @@
-import express from "express";
+import express, { urlencoded } from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import ApiError from "./utils/ApiError.js";
 import errorHandler from "./utils/errorHandler.js";
-const app = express();
+import { app, server } from "./socket/socket.js";
+// const app = express();
 
 // ----------- Middlewares ----------
 app.use(express.json());
@@ -13,7 +14,7 @@ const corsOptions = {
   credentials: true,
 };
 app.use(cors(corsOptions));
-
+app.use(urlencoded({ extended: true }));
 // --------- Import Routes -------------
 import userRoute from "./routes/user.routes.js";
 import postRoute from "./routes/post.routes.js";
@@ -38,4 +39,4 @@ app.use("*", (req, res, next) => {
 // ----------------- Error handler ---------
 app.use(errorHandler);
 
-export { app };
+export { app, server };

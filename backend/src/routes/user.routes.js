@@ -20,8 +20,6 @@ router
   .route("/profile/edit")
   .post(jwtAuthMiddleware, upload.single("profilePicture"), updateProfile);
 router.route("/suggested").get(jwtAuthMiddleware, getSuggestedUsers);
-router
-  .route("/followorunfollow/:id")
-  .post(jwtAuthMiddleware, followAndUnfollow);
+router.route("/followorunfollow/:id").get(jwtAuthMiddleware, followAndUnfollow);
 
 export default router;

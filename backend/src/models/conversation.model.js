@@ -6,7 +6,7 @@ const conversationSchema = new mongoose.Schema({
       ref: "User",
     },
   ],
-  message: [
+  messages: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Message",
@@ -14,5 +14,5 @@ const conversationSchema = new mongoose.Schema({
   ],
 });
 
-const Conversation = mongoose.model(" Conversation", conversationSchema);
+const Conversation = mongoose.model("Conversation", conversationSchema);
 export { Conversation };

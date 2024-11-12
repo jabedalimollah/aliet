@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Button } from "./ui/button";
@@ -6,6 +6,8 @@ import axios from "axios";
 import { toast } from "sonner";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Loader2 } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
+import { setAuthUser } from "@/redux/authSlice";
 
 const Login = () => {
   const [inputFields, setInputFields] = useState({
@@ -13,7 +15,9 @@ const Login = () => {
     password: "",
   });
   const [loading, setLoading] = useState(false);
+  const { user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const changeEventHandler = (e) => {
     setInputFields({ ...inputFields, [e.target.name]: e.target.value });
   };
@@ -32,22 +36,29 @@ const Login = () => {
           withCredentials: true,
         }
       );
-      //   console.log(res.data.statusInfo);
-      if (res.data.statusInfo == "success") {
+      // console.log(res.data.data);
+      if (res?.data.statusInfo == "success") {
+        dispatch(setAuthUser(res.data.data));
         toast.success(res.data.message);
         setInputFields({
           email: "",
           password: "",
         });
+
         navigate("/");
       }
     } catch (error) {
-      //   console.log(error);
-      toast.error(error.response.data.message);
+      // console.log(error.response);
+      toast.error(error?.response?.data.message);
     } finally {
       setLoading(false);
     }
   };
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  }, []);
   return (
     <div className="flex items-center w-screen h-screen justify-center">
       <form

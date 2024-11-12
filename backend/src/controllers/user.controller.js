@@ -65,6 +65,7 @@ const login = asyncErrorHandler(async (req, res) => {
       return null;
     })
   );
+
   // ------------- Password Remove ---------
   const userData = user.toObject();
   userData.posts = populatedPosts;
@@ -90,7 +91,10 @@ const logout = asyncErrorHandler(async (req, res) => {
 // ================= Get Profile =================
 const getProfile = asyncErrorHandler(async (req, res) => {
   const userId = req.params.id;
-  let user = await User.findById(userId).select("-password");
+  let user = await User.findById(userId)
+    .populate({ path: "posts", createdAt: -1 })
+    .populate("bookmarks")
+    .select("-password");
   return res.status(200).json(new ApiResponse(200, user, "Success"));
 });
 
@@ -143,22 +147,45 @@ const followAndUnfollow = asyncErrorHandler(async (req, res) => {
     throw new ApiError(400, "error", "User not found");
   }
   const isFollowing = user.following.includes(followingUser);
+
   if (isFollowing) {
     await Promise.all([
       User.updateOne({ _id: userId }, { $pull: { following: followingUser } }),
       User.updateOne({ _id: followingUser }, { $pull: { followers: userId } }),
     ]);
+    let updatedUser = await User.findById(userId).select("-password");
+    let updateTargetUser = await User.findById(followingUser).select(
+      "-password"
+    );
+    // console.log(updateTargetUser);
     return res
       .status(200)
-      .json(new ApiResponse(200, null, "Unfollowed Successfully"));
+      .json(
+        new ApiResponse(
+          200,
+          { user: updatedUser, selectedUser: updateTargetUser },
+          "Unfollowed Successfully"
+        )
+      );
   } else {
     await Promise.all([
       User.updateOne({ _id: userId }, { $push: { following: followingUser } }),
       User.updateOne({ _id: followingUser }, { $push: { followers: userId } }),
     ]);
+    let updatedUser = await User.findById(userId).select("-password");
+    let updateTargetUser = await User.findById(followingUser).select(
+      "-password"
+    );
+    // console.log(updateTargetUser);
     return res
       .status(200)
-      .json(new ApiResponse(200, null, "Followed Successfully"));
+      .json(
+        new ApiResponse(
+          200,
+          { user: updatedUser, selectedUser: updateTargetUser },
+          "Followed Successfully"
+        )
+      );
   }
 });
 

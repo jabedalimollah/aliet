@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Button } from "./ui/button";
@@ -6,6 +6,7 @@ import axios from "axios";
 import { toast } from "sonner";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Loader2 } from "lucide-react";
+import { useSelector } from "react-redux";
 
 const Signup = () => {
   const [inputFields, setInputFields] = useState({
@@ -14,7 +15,8 @@ const Signup = () => {
     password: "",
   });
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate;
+  const { user } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
   const changeEventHandler = (e) => {
     setInputFields({ ...inputFields, [e.target.name]: e.target.value });
   };
@@ -50,6 +52,11 @@ const Signup = () => {
       setLoading(false);
     }
   };
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  }, []);
   return (
     <div className="flex items-center w-screen h-screen justify-center">
       <form

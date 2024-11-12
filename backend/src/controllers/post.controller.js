@@ -6,6 +6,7 @@ import { cloudinary } from "../utils/cloudinary.js";
 import { Post } from "../models/post.model.js";
 import { User } from "../models/user.model.js";
 import { Comment } from "../models/comment.model.js";
+import { getReceiverSocketId, io } from "../socket/socket.js";
 
 // ======================== Post =========================
 const post = asyncErrorHandler(async (req, res) => {
@@ -33,21 +34,23 @@ const post = asyncErrorHandler(async (req, res) => {
     user.posts.push(post._id);
     await user.save();
   }
-  await Post.populate({ path: "auther", select: "-password" });
-  res.status(200).json(new ApiResponse(201, post, "New post added"));
+  // console.log(post);
+  await post.populate({ path: "author", select: "-password" });
+
+  res.status(201).json(new ApiResponse(201, post, "New post added"));
 });
 
 // ====================== Get All Post ===================
 const getAllPost = asyncErrorHandler(async (req, res) => {
   const posts = await Post.find()
     .sort({ createdAt: -1 })
-    .populate({ path: "auther", select: "username,profilePicture" })
+    .populate({ path: "author", select: "username profilePicture" })
     .populate({
       path: "comments",
       sort: { createdAt: -1 },
       populate: {
         path: "author",
-        select: "username,profilePicture",
+        select: "username profilePicture",
       },
     });
   res.status(200).json(new ApiResponse(201, posts, "success"));
@@ -84,6 +87,20 @@ const likePost = asyncErrorHandler(async (req, res) => {
   }
   await post.updateOne({ $addToSet: { likes: authUser } });
   await post.save();
+  const user = await User.findById(authUser).select("username profilePicture");
+  const postOwnerId = post.author.toString();
+  if (postOwnerId != authUser) {
+    const notification = {
+      type: "like",
+      userId: authUser,
+      userDetails: user,
+      postId,
+      message: "Your post was liked",
+    };
+    const postOwnerSocketId = getReceiverSocketId(postOwnerId);
+    io.to(postOwnerSocketId).emit("notification", notification);
+  }
+
   res.status(201).json(new ApiResponse(201, null, "Post liked"));
 });
 
@@ -98,6 +115,20 @@ const dislikePost = asyncErrorHandler(async (req, res) => {
   }
   await post.updateOne({ $pull: { likes: authUser } });
   await post.save();
+
+  const user = await User.findById(authUser).select("username profilePicture");
+  const postOwnerId = post.author.toString();
+  if (postOwnerId != authUser) {
+    const notification = {
+      type: "dislike",
+      userId: authUser,
+      userDetails: user,
+      postId,
+      message: "Your post was liked",
+    };
+    const postOwnerSocketId = getReceiverSocketId(postOwnerId);
+    io.to(postOwnerSocketId).emit("notification", notification);
+  }
   res.status(201).json(new ApiResponse(201, null, "Post disliked"));
 });
 
@@ -107,6 +138,7 @@ const addComment = asyncErrorHandler(async (req, res) => {
   const authUser = req.id;
   const { text } = req.body;
   const post = await Post.findById(postId);
+  // console.log(req.body);
   if (!text) {
     throw new ApiError(400, "error", "Comment is required");
   }
@@ -114,9 +146,10 @@ const addComment = asyncErrorHandler(async (req, res) => {
     text,
     author: authUser,
     post: postId,
-  }).populate({
+  });
+  await comment.populate({
     path: "author",
-    select: "username, profilePicture",
+    select: "username profilePicture",
   });
   post.comments.push(comment._id);
   await post.save();
@@ -129,7 +162,7 @@ const getPostComments = asyncErrorHandler(async (req, res) => {
   const postId = req.params.id;
   const comments = await Comment.find({ post: postId }).populate(
     "author",
-    "username,profilePicture"
+    "username profilePicture"
   );
   if (!comments) {
     throw new ApiError(404, "error", "No comments found for this post");
@@ -165,17 +198,20 @@ const bookemarkPost = asyncErrorHandler(async (req, res) => {
   if (!post) {
     throw new ApiError(404, "error", "Post not found");
   }
-  const user = await User.findById(authorId);
+  const user = await User.findById(authorId).select("-password");
   if (user.bookmarks.includes(post._id)) {
     await user.updateOne({ $pull: { bookmarks: post._id } });
     await user.save();
+    let updateUser = await User.findById(authorId).select("-password");
+    // console.log(updateUser);
     res
       .status(200)
-      .json(new ApiResponse(200, null, "Post removed from bookmark"));
+      .json(new ApiResponse(200, updateUser, "Post removed from bookmark"));
   } else {
     await user.updateOne({ $addToSet: { bookmarks: post._id } });
     await user.save();
-    res.status(200).json(new ApiResponse(200, null, "Post bookmarked"));
+    let updateUser = await User.findById(authorId).select("-password");
+    res.status(200).json(new ApiResponse(200, updateUser, "Post bookmarked"));
   }
 });
 
