@@ -4,9 +4,10 @@ import { useSelector } from "react-redux";
 
 const Posts = () => {
   const { posts } = useSelector((state) => state.post);
+
   return (
     <div>
-      {posts.map((post) => (
+      {[...posts]?.reverse().map((post) => (
         <Post key={post?._id} post={post} />
       ))}
     </div>

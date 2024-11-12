@@ -48,7 +48,7 @@ const CreatePost = ({ open, setOpen }) => {
       );
       // console.log(res);
       if (res.data.statusInfo == "success") {
-        dispatch(setPosts([res.data.data, ...posts]));
+        dispatch(setPosts([...posts, res.data.data]));
         toast.success(res.data.message);
         setOpen(false);
       }
