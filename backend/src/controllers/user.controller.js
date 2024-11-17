@@ -189,6 +189,21 @@ const followAndUnfollow = asyncErrorHandler(async (req, res) => {
   }
 });
 
+// =================== Get Followers ====================
+const getFollowers = asyncErrorHandler(async (req, res) => {
+  const userId = req.params.id;
+  // const followers = await User.findById(userId).populate("User", "followers");
+  let user = await User.findById(userId);
+
+  let followers = await user.populate({
+    path: "followers",
+    select: "_id username profilePicture bio",
+  });
+  return res
+    .status(200)
+    .json(new ApiResponse(200, followers.followers, "Get All Followers"));
+});
+
 // ========== Export ==========
 export {
   register,
@@ -198,4 +213,5 @@ export {
   updateProfile,
   getSuggestedUsers,
   followAndUnfollow,
+  getFollowers,
 };

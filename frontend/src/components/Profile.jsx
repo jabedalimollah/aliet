@@ -10,6 +10,7 @@ import axios from "axios";
 import { toast } from "sonner";
 import { setAuthUser, setUserProfile } from "@/redux/authSlice";
 import { setSelectedUser } from "@/redux/chatSlice";
+import Followers from "./Followers";
 
 const Profile = () => {
   const { user, userProfile } = useSelector((state) => state.auth);
@@ -146,12 +147,13 @@ const Profile = () => {
                   </span>{" "}
                   posts
                 </p>
-                <p>
+                {/* <p>
                   <span className="font-semibold">
                     {userProfile?.followers?.length}
-                  </span>{" "}
+                  </span>
                   followers
-                </p>
+                </p> */}
+                <Followers userProfile={userProfile} />
                 <p>
                   <span className="font-semibold">
                     {userProfile?.following?.length}
