@@ -17,9 +17,9 @@ import { NavLink, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setAuthUser, setUserProfile } from "@/redux/authSlice";
 import { Loader2 } from "lucide-react";
-const Followers = ({ userProfile }) => {
+const Following = ({ userProfile }) => {
   const [close, setClose] = useState(false);
-  const [followers, setFollowers] = useState([]);
+  const [following, setFollowing] = useState([]);
   const [loading, setLoading] = useState(false);
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -62,7 +62,7 @@ const Followers = ({ userProfile }) => {
   const getFollowers = async () => {
     try {
       const res = await axios.get(
-        `${import.meta.env.VITE_APP_API_KEY}/user/followers/${
+        `${import.meta.env.VITE_APP_API_KEY}/user/following/${
           params.id === user?._id ? user?._id : params.id
         }`,
         {
@@ -75,7 +75,7 @@ const Followers = ({ userProfile }) => {
       //   console.log(res.data.data);
       if (res.data.statusInfo == "success") {
         // toast.success(res.data.message);
-        setFollowers(res.data.data);
+        setFollowing(res.data.data);
       }
     } catch (error) {
       console.log(error);
@@ -101,9 +101,9 @@ const Followers = ({ userProfile }) => {
           >
             <p>
               <span className="font-semibold">
-                {userProfile?.followers?.length}
+                {userProfile?.following?.length}
               </span>{" "}
-              followers
+              following
             </p>
           </Button>
         </DialogTrigger>
@@ -114,13 +114,15 @@ const Followers = ({ userProfile }) => {
         >
           <DialogHeader
             className={
-              "border-b border-gray-500 hidden flex-row items-center justify-between w-full h-10"
+              "border-b border-gray-500 hidden flex-row items-center justify-between w-full "
             }
           >
-            <DialogTitle className="">Followers</DialogTitle>
+            <DialogTitle className="">Following</DialogTitle>
             <Button
               variant="outline"
-              className={"flex bg-transparent border-none outline-none"}
+              className={
+                "flex bg-transparents bg-red-600 border-none outline-none "
+              }
               onClick={() => setClose(false)}
             >
               <AiOutlineClose className="text-2xl" />
@@ -129,19 +131,19 @@ const Followers = ({ userProfile }) => {
           <div className=" flex flex-col gap-y-2 overflow-y-auto">
             <div
               className={
-                "border-b border-gray-500 flex flex-row items-center justify-between w-full h-11 sticky top-0 bg-white z-10"
+                "border-b border-gray-500 flex flex-row items-center justify-between w-full h-11 sticky top-0 bg-white z-10 "
               }
             >
-              <h1 className="font-semibold">Followers</h1>
+              <h1 className="font-semibold">Following</h1>
               <Button
                 variant="outline"
-                className={"flex bg-transparent border-none outline-none"}
+                className={"flex bg-transparent border-none outline-none  "}
                 onClick={() => setClose(false)}
               >
                 <AiOutlineClose className="text-2xl" />
               </Button>
             </div>
-            {followers.map((item, index) => (
+            {following.map((item, index) => (
               <div key={item?._id} className="w-full flex gap-x-4">
                 <NavLink
                   to={`/profile/${item?._id}`}
@@ -196,4 +198,4 @@ const Followers = ({ userProfile }) => {
   );
 };
 
-export default Followers;
+export default Following;

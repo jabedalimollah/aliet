@@ -13,7 +13,7 @@ const SuggestedUsers = () => {
   // const isLoggedInUserProfile = user?._id == userProfile?._id;
   const handleFollowAndUnfollow = async (Id) => {
     try {
-      if (true) {
+      if (user?._id != Id) {
         // console.log(userProfile?._id);
         const res = await axios.get(
           `${import.meta.env.VITE_APP_API_KEY}/user/followorunfollow/${Id}`,
@@ -30,7 +30,7 @@ const SuggestedUsers = () => {
         // );
 
         // dispatch(setSuggestedUsers(updateUsers));
-        console.log(res?.data.data);
+        // console.log(res?.data.data);
         dispatch(setAuthUser(res?.data.data.user));
 
         // dispatch(setSuggestedUsers(updateUsers));

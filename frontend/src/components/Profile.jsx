@@ -11,6 +11,7 @@ import { toast } from "sonner";
 import { setAuthUser, setUserProfile } from "@/redux/authSlice";
 import { setSelectedUser } from "@/redux/chatSlice";
 import Followers from "./Followers";
+import Following from "./Following";
 
 const Profile = () => {
   const { user, userProfile } = useSelector((state) => state.auth);
@@ -154,12 +155,8 @@ const Profile = () => {
                   followers
                 </p> */}
                 <Followers userProfile={userProfile} />
-                <p>
-                  <span className="font-semibold">
-                    {userProfile?.following?.length}
-                  </span>{" "}
-                  following
-                </p>
+
+                <Following userProfile={userProfile} />
               </div>
               <div className="flex flex-col gap-1">
                 <span className="font-semibold">

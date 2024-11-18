@@ -2,6 +2,7 @@ import express from "express";
 import {
   followAndUnfollow,
   getFollowers,
+  getFollowing,
   getProfile,
   getSuggestedUsers,
   login,
@@ -23,5 +24,6 @@ router
 router.route("/suggested").get(jwtAuthMiddleware, getSuggestedUsers);
 router.route("/followorunfollow/:id").get(jwtAuthMiddleware, followAndUnfollow);
 router.route("/followers/:id").get(jwtAuthMiddleware, getFollowers);
+router.route("/following/:id").get(jwtAuthMiddleware, getFollowing);
 
 export default router;

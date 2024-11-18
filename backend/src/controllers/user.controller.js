@@ -203,6 +203,20 @@ const getFollowers = asyncErrorHandler(async (req, res) => {
     .status(200)
     .json(new ApiResponse(200, followers.followers, "Get All Followers"));
 });
+// =================== Get Following ====================
+const getFollowing = asyncErrorHandler(async (req, res) => {
+  const userId = req.params.id;
+  // const followers = await User.findById(userId).populate("User", "followers");
+  let user = await User.findById(userId);
+
+  let following = await user.populate({
+    path: "following",
+    select: "_id username profilePicture bio",
+  });
+  return res
+    .status(200)
+    .json(new ApiResponse(200, following.following, "Get All Following"));
+});
 
 // ========== Export ==========
 export {
@@ -214,4 +228,5 @@ export {
   getSuggestedUsers,
   followAndUnfollow,
   getFollowers,
+  getFollowing,
 };
