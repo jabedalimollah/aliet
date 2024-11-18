@@ -159,16 +159,14 @@ const Profile = () => {
                 <Following userProfile={userProfile} />
               </div>
               <div className="flex flex-col gap-1">
-                <span className="font-semibold">
-                  {userProfile?.bio || "bio here..."}
-                </span>
+                <span className="font-semibold">{userProfile?.username}</span>
                 <Badge variant={"secondary"} className={"w-fit"}>
                   <AtSign />
                   <span className="pl-1">{userProfile?.username}</span>
                 </Badge>
-                <span>🌟MERN Stack Developer</span>
-                <span>🌟MERN Stack Developer</span>
-                <span>🌟MERN Stack Developer</span>
+                <span>{userProfile?.bio || "bio here..."}</span>
+                {/* <span>🌟MERN Stack Developer</span>
+                <span>🌟MERN Stack Developer</span> */}
               </div>
             </div>
           </section>
