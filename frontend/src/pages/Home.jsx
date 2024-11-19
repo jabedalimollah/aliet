@@ -1,4 +1,5 @@
 import Feed from "@/components/Feed";
+import Header from "@/components/Header";
 import RighSidebar from "@/components/RighSidebar";
 import useGetAllPost from "@/hooks/useGetAllPost";
 import useGetAuthUserProfile from "@/hooks/useGetAuthUserProfile";
@@ -15,8 +16,11 @@ const Home = () => {
   return (
     <div className="flex ">
       <div className="flex-grow">
-        <Feed />
-        <Outlet />
+        <Header />
+        <div className="pt-6 md:pt-0">
+          <Feed />
+          <Outlet />
+        </div>
       </div>
       <RighSidebar />
     </div>

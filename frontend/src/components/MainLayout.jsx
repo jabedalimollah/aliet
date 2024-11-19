@@ -1,12 +1,14 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 import LeftSidebar from "./LeftSidebar";
+import BottomMenu from "./BottomMenu";
 
 const MainLayout = () => {
   return (
-    <div>
+    <div className="flex">
       <LeftSidebar />
-      <div>
+      <BottomMenu />
+      <div className="h-screen overflow-y-auto flex-1 px-0 lg:px-10s pb-10 md:pb-0">
         <Outlet />
       </div>
     </div>

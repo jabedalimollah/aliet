@@ -20,7 +20,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Button } from "./ui/button";
 import { setLikeNotification } from "@/redux/notificationSlice";
 
-const LeftSidebar = () => {
+const Header = () => {
   const [open, setOpen] = useState(false);
   const { user } = useSelector((state) => state.auth);
   const { likeNotification } = useSelector((state) => state.notification);
@@ -72,40 +72,12 @@ const LeftSidebar = () => {
     setNotificationOpen(false);
     dispatch(setLikeNotification([]));
   };
-  const sidebarItems = [
-    {
-      icon: <Home />,
-      text: "Home",
-    },
-    {
-      icon: <Search />,
-      text: "Search",
-    },
-    {
-      icon: <TrendingUp />,
-      text: "Explore",
-    },
-    {
-      icon: <MessageCircle />,
-      text: "Messages",
-    },
+  const headerItems = [
     {
       icon: <Heart />,
       text: "Notifications",
     },
-    {
-      icon: <PlusSquare />,
-      text: "Create",
-    },
-    {
-      icon: (
-        <Avatar className={"w-6 h-6"}>
-          <AvatarImage src={user?.profilePicture} alt="profile_Picture" />
-          <AvatarFallback>{user?.username}</AvatarFallback>
-        </Avatar>
-      ),
-      text: "Profile",
-    },
+
     {
       icon: <LogOut />,
       text: "Logout",
@@ -115,23 +87,20 @@ const LeftSidebar = () => {
   // useEffect(() => {}, [likeNotification, dispatch]);
   return (
     <>
-      <div className="px-4 border-r border-gray-300 w-[16%] md:w-fit lg:w-[16%] h-screen hidden md:inline-block">
+      <div className="px-4  w-full md:w-fit lg:w-[16%] flex md:hidden fixed top-0 left-0 z-10 bg-white border-b ">
         {/* <div className="fixed top-0 left-0 z-10 px-4 border-r border-gray-300 w-[16%] h-screen"> */}
-        <div className="flex flex-col">
-          <h1 className="my-8 pl-3 font-bold text-xl">Logo</h1>
-          <div>
-            {sidebarItems.map((item, index) => {
+        <div className="flex w-full justify-between items-center">
+          <h1 className=" pl-3 font-bold text-xl">Logo</h1>
+          <div className="flex gap-x-0">
+            {headerItems.map((item, index) => {
               return (
                 <div
                   onClick={() => sidebarHandler(item.text)}
                   key={index}
-                  className="flex items-center justify-center lg:justify-start gap-4 relative hover:bg-gray-100 cursor-pointer rounded-lg p-3 my-3"
+                  className="p-3 flex items-center justify-center lg:justify-start gap-4 relative hover:bg-gray-100 cursor-pointer rounded-lg"
                 >
                   {item.icon}
-                  <span className="inline-block md:hidden lg:inline-block">
-                    {" "}
-                    {item.text}
-                  </span>
+
                   <>
                     {item.text === "Notifications" &&
                       likeNotification.length > 0 && (
@@ -183,47 +152,6 @@ const LeftSidebar = () => {
                         </Popover>
                       )}
                   </>
-                  {/* {item.text === "Notifications" &&
-                  likeNotification.length > 0 && (
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <Button
-                          size="icon"
-                          className={
-                            "rounded-full h-5 w-5 absolute bottom-6 left-6"
-                          }
-                        >
-                          {likeNotification.length}
-                        </Button>
-                        <PopoverContent>
-                          <div>
-                            {likeNotification.length === 0 ? (
-                              <p>No notification</p>
-                            ) : (
-                              likeNotification.map((notification) => (
-                                <div key={notification.userId}>
-                                  <Avatar>
-                                    <AvatarImage
-                                      src={
-                                        notification.userDetails?.profilePicture
-                                      }
-                                      alt="profile"
-                                    />
-                                  </Avatar>
-                                  <p className="text-sm">
-                                    <span className="font-bold">
-                                      {notification.userDetails?.username}
-                                    </span>
-                                    liked your post
-                                  </p>
-                                </div>
-                              ))
-                            )}
-                          </div>
-                        </PopoverContent>
-                      </PopoverTrigger>
-                    </Popover>
-                  )} */}
                 </div>
               );
             })}
@@ -235,4 +163,4 @@ const LeftSidebar = () => {
   );
 };
 
-export default LeftSidebar;
+export default Header;

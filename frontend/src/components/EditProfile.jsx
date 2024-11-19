@@ -86,7 +86,7 @@ const EditProfile = () => {
     });
   }, []);
   return (
-    <div className="flex max-w-2xl mx-auto pl-10">
+    <div className="flex max-w-2xl mx-auto md:pl-10s px-10">
       <section className="flex flex-col gap-6 w-full my-8">
         <h1 className="font-bold text-xl">Edit Profile</h1>
         <div className="flex items-center justify-between bg-gray-100 rounded-xl p-4">
@@ -96,9 +96,10 @@ const EditProfile = () => {
               <AvatarFallback>{user?.username}</AvatarFallback>
             </Avatar>
 
-            <div className="">
+            <div className="w-full">
               <h1 className="font-bold text-sm">{user?.username}</h1>
-              <span className="text-gray-600">{user?.bio}</span>
+              <span className="text-gray-600 ">{user?.username}</span>
+              {/* <span className="text-gray-600 ">{user?.bio}</span> */}
             </div>
           </div>
           <input

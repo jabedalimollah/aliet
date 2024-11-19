@@ -22,6 +22,7 @@ import axios from "axios";
 import { setPosts, setSelectedPost } from "@/redux/postSlice";
 import { Badge } from "./ui/badge";
 import { setAuthUser } from "@/redux/authSlice";
+import { NavLink } from "react-router-dom";
 const Post = ({ post }) => {
   const [text, setText] = useState("");
   const [open, setOpen] = useState(false);
@@ -167,12 +168,21 @@ const Post = ({ post }) => {
     <div className="my-8 w-full max-w-sm mx-auto">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <Avatar>
-            <AvatarImage src={post?.author?.profilePicture} alt="post_image" />
-            <AvatarFallback>CN</AvatarFallback>
-          </Avatar>
+          <NavLink to={`profile/${post?.author?._id}`}>
+            <Avatar>
+              <AvatarImage
+                src={post?.author?.profilePicture}
+                alt="post_image"
+              />
+              <AvatarFallback>CN</AvatarFallback>
+            </Avatar>
+          </NavLink>
+
           <div className="flex items-center gap-3">
-            <h1>{post?.author?.username}</h1>
+            <NavLink to={`profile/${post?.author?._id}`}>
+              <h1>{post?.author?.username}</h1>
+            </NavLink>
+
             {user?._id == post?.author?._id && (
               <Badge variant={"secondary"}>Author</Badge>
             )}

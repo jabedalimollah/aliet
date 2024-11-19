@@ -97,10 +97,12 @@ const Following = ({ userProfile }) => {
           <Button
             variant="outline"
             onClick={handleOpen}
-            className={"border-none outline-none"}
+            className={
+              "border-none outline-none flex md:inline-block flex-col  justify-center items-center text-base m-0 p-0 hover:bg-transparent"
+            }
           >
-            <p>
-              <span className="font-semibold">
+            <p className="flex md:inline-block flex-col  justify-center items-center  text-slate-600">
+              <span className="font-semibold text-black">
                 {userProfile?.following?.length}
               </span>{" "}
               following
@@ -110,7 +112,7 @@ const Following = ({ userProfile }) => {
         <DialogContent
           onInteractOutside={() => setClose(false)}
           //   className="sm:max-w-[425px]"
-          className="w-1/3 h-2/3"
+          className="w-full md:w-2/3 lg:w-1/3 h-screen md:h-2/3"
         >
           <DialogHeader
             className={
@@ -144,7 +146,10 @@ const Following = ({ userProfile }) => {
               </Button>
             </div>
             {following.map((item, index) => (
-              <div key={item?._id} className="w-full flex gap-x-4">
+              <div
+                key={item?._id}
+                className="w-full flex gap-x-4 hover:bg-slate-50"
+              >
                 <NavLink
                   to={`/profile/${item?._id}`}
                   className="w-full flex gap-x-4"
@@ -162,7 +167,7 @@ const Following = ({ userProfile }) => {
                   <div className="flex-1">
                     <h1 className="font-semibold">{item?.username}</h1>
                     <span className="font-normal text-gray-600">
-                      {item?.bio}
+                      {item?.username}
                     </span>
                   </div>
                 </NavLink>

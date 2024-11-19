@@ -8,6 +8,8 @@ import { MessageCircle, MessageCircleCode } from "lucide-react";
 import Messages from "./Messages";
 import { toast } from "sonner";
 import axios from "axios";
+import { MdArrowBack } from "react-icons/md";
+import { NavLink } from "react-router-dom";
 
 const ChatPage = () => {
   const [message, setMessage] = useState("");
@@ -34,7 +36,7 @@ const ChatPage = () => {
       if (res?.data?.statusInfo == "success") {
         dispatch(setMessages([...messages, res.data.data]));
         setMessage("");
-        toast.success(res?.data?.message);
+        // toast.success(res?.data?.message);
       }
     } catch (error) {
       console.log(error);
@@ -48,11 +50,20 @@ const ChatPage = () => {
     };
   }, []);
   return (
-    <div className="flex ml-[16%] h-screen">
-      <section className="w-full md:w-1/4 my-8">
-        <h1 className="font-bold mb-4 px-3 text-xl">{user?.username}</h1>
-        <hr className="mb-4 border border-gray-400" />
-        <div className="overflow-y-auto h-[80vh]">
+    <div className="flex sml-[16%] h-screen fixed md:relative top-0 left-0 w-full md:w-auto z-20">
+      <section
+        className={`w-full md:w-1/4 my-8 ${
+          selectedUser ? "hidden" : "inline-block"
+        } md:inline-block fixed md:relative top-0 left-0 h-screen md:h-auto z-20 bg-white`}
+      >
+        <h1 className="font-bold mb-4 px-3 text-xl flex items-center gap-1 fixed md:relative top-0 left-0 z-10 bg-white border-b py-3 w-full">
+          <NavLink to={`/`} className={"inline-block md:hidden"}>
+            <MdArrowBack />
+          </NavLink>
+          {user?.username}
+        </h1>
+        {/* <hr className="mb-4 border-b " /> */}
+        <div className={`w-full overflow-y-auto h-[80vh] mt-10 `}>
           {suggestedUsers.map((user) => {
             const isOnline = onlineUsers.includes(user?._id);
             return (
@@ -85,8 +96,18 @@ const ChatPage = () => {
         </div>
       </section>
       {selectedUser ? (
-        <section className="flex-1 border-l border-l-gray-300 flex flex-col h-full">
+        <section
+          className={`flex-1 border-l border-l-gray-300 flex flex-col h-full 
+        
+          `}
+        >
           <div className="flex gap-3 items-center px-3 py-2 border-b border-gray-300 sticky top-0 bg-white z-10">
+            <button
+              onClick={() => dispatch(setSelectedUser(null))}
+              className="inline-block md:hidden"
+            >
+              <MdArrowBack />
+            </button>
             <Avatar>
               <AvatarImage src={selectedUser?.profilePicture} alt="profile" />
               <AvatarFallback>{selectedUser?.username}</AvatarFallback>
@@ -111,7 +132,9 @@ const ChatPage = () => {
           </div>
         </section>
       ) : (
-        <div className="flex flex-col items-center justify-center mx-auto">
+        <div
+          className={` hidden md:flex flex-col items-center justify-center mx-auto`}
+        >
           <MessageCircleCode className="w-32 h-32 my-4" />
           <h1 className="font-medium text-xl">Your messages</h1>
           <span>Send a message to start a chat</span>

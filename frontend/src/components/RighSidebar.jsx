@@ -7,7 +7,8 @@ import SuggestedUsers from "./SuggestedUsers";
 const RighSidebar = () => {
   const { user } = useSelector((state) => state.auth);
   return (
-    <div className="w-[30%] overflow-hidden px-3 my-10  pr-32">
+    <div className=" w-[30%] overflow-hidden hidden lg:flex flex-col items-start my-10">
+      {/* <div className=" lg:w-[30%] overflow-hidden px-3 my-10  pr-32"> */}
       <div className="flex items-center gap-2">
         <NavLink to={`/profile/${user?._id}`}>
           <Avatar>
@@ -21,7 +22,7 @@ const RighSidebar = () => {
             <NavLink to={`/profile/${user?._id}`}>{user?.username}</NavLink>
           </h1>
           <span className="text-gray-600 text-sm overflow-hidden ">
-            {user?.bio}
+            {user?.username}
           </span>
         </div>
       </div>

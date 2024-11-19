@@ -9,6 +9,7 @@ import Comment from "./Comment";
 import axios from "axios";
 import { setPosts } from "@/redux/postSlice";
 import { toast } from "sonner";
+import { MdArrowBackIos } from "react-icons/md";
 
 const CommentDialog = ({ open, setOpen }) => {
   const [comment, setComment] = useState("");
@@ -75,7 +76,7 @@ const CommentDialog = ({ open, setOpen }) => {
         >
           <DialogTitle className="hidden"></DialogTitle>
           <div className="flex flex-1">
-            <div className="w-1/2">
+            <div className="w-1/2 hidden md:inline-block">
               <img
                 src={selectedPost?.image}
                 alt="post_image"
@@ -83,8 +84,17 @@ const CommentDialog = ({ open, setOpen }) => {
               />
             </div>
 
-            <div className="w-1/2 flex flex-col justify-between">
-              <div className="flex items-center justify-between p-4">
+            <div className="w-full md:w-1/2 h-screen md:h-auto flex flex-col justify-start md:justify-between ">
+              <div className="w-full flex justify-between md:hidden p-4 fixed top-0 left-0 border-b border-gray-200">
+                <button
+                  onClick={() => setOpen(false)}
+                  className="flex items-center justify-center gap-x-1"
+                >
+                  <MdArrowBackIos /> Back
+                </button>
+                <h2 className="font-semibold">Comments</h2>
+              </div>
+              <div className="flex items-center justify-between p-4 bg-slate-100 mt-16 md:mt-0">
                 <div className="flex gap-3 items-center">
                   <NavLink>
                     <Avatar>
@@ -92,7 +102,9 @@ const CommentDialog = ({ open, setOpen }) => {
                         src={selectedPost?.author?.profilePicture}
                         alt="post_image"
                       />
-                      <AvatarFallback>CN</AvatarFallback>
+                      <AvatarFallback>
+                        {selectedPost?.author?.username}
+                      </AvatarFallback>
                     </Avatar>
                   </NavLink>
                   <div>
@@ -118,7 +130,7 @@ const CommentDialog = ({ open, setOpen }) => {
                   </DialogContent>
                 </Dialog>
               </div>
-              <hr />
+              {/* <hr /> */}
               <div className="flex-1 overflow-y-auto max-h-96 p-4">
                 {/* comments ... */}
                 {comments.map((comment) => (
@@ -126,8 +138,8 @@ const CommentDialog = ({ open, setOpen }) => {
                 ))}
               </div>
 
-              <div className="p-4">
-                <div className="flex items-center gap-2">
+              <div className="w-full flex  p-4 fixed md:relative bottom-0 left-0 z-10 bg-white ">
+                <div className="w-full flex items-center gap-2">
                   <input
                     type="text"
                     value={comment}
