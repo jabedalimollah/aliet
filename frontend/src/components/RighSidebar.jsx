@@ -22,7 +22,7 @@ const RighSidebar = () => {
             <NavLink to={`/profile/${user?._id}`}>{user?.username}</NavLink>
           </h1>
           <span className="text-gray-600 text-sm overflow-hidden ">
-            {user?.username}
+            {user?.name}
           </span>
         </div>
       </div>

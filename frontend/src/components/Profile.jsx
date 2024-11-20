@@ -7,11 +7,12 @@ import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
 import { AtSign, Heart, MessageCircle } from "lucide-react";
 import axios from "axios";
-import { toast } from "sonner";
+// import { toast } from "sonner";
 import { setAuthUser, setUserProfile } from "@/redux/authSlice";
 import { setSelectedUser } from "@/redux/chatSlice";
 import Followers from "./Followers";
 import Following from "./Following";
+import { toast } from "react-toastify";
 
 const Profile = () => {
   const { user, userProfile } = useSelector((state) => state.auth);
@@ -49,12 +50,16 @@ const Profile = () => {
         dispatch(setAuthUser(res?.data.data.user));
         dispatch(setUserProfile(res?.data.data.selectedUser));
         if (res.data.statusInfo == "success") {
-          toast.success(res.data.message);
+          toast.success(res.data.message, {
+            position: "top-center",
+          });
         }
       }
     } catch (error) {
       console.log(error.response.data.message);
-      toast.error(error.response.data.message);
+      toast.error(error.response.data.message, {
+        position: "top-center",
+      });
     }
   };
   const messageHandler = () => {
@@ -161,7 +166,7 @@ const Profile = () => {
                 <Following userProfile={userProfile} />
               </div>
               <div className="hidden md:flex flex-col gap-1">
-                <span className="font-semibold">{userProfile?.username}</span>
+                <span className="font-semibold">{userProfile?.name}</span>
                 <Badge variant={"secondary"} className={"w-fit"}>
                   <AtSign />
                   <span className="pl-1">{userProfile?.username}</span>

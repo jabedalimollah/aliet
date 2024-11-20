@@ -12,11 +12,12 @@ import { IoMdClose } from "react-icons/io";
 import { AiOutlineClose } from "react-icons/ai";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import axios from "axios";
-import { toast } from "sonner";
+// import { toast } from "sonner";
 import { NavLink, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setAuthUser, setUserProfile } from "@/redux/authSlice";
 import { Loader2 } from "lucide-react";
+import { toast } from "react-toastify";
 const Followers = ({ userProfile }) => {
   const [close, setClose] = useState(false);
   const [followers, setFollowers] = useState([]);
@@ -49,12 +50,16 @@ const Followers = ({ userProfile }) => {
       // dispatch(setUserProfile(res?.data.data.selectedUser));
       setClose(false);
       if (res.data.statusInfo == "success") {
-        toast.success(res.data.message);
+        toast.success(res.data.message, {
+          position: "top-center",
+        });
         getFollowers();
       }
     } catch (error) {
       console.log(error.response.data.message);
-      toast.error(error.response.data.message);
+      toast.error(error.response.data.message, {
+        position: "top-center",
+      });
     } finally {
       setLoading(false);
     }
@@ -79,7 +84,9 @@ const Followers = ({ userProfile }) => {
       }
     } catch (error) {
       console.log(error);
-      toast.error(error.response.data.message);
+      toast.error(error.response.data.message, {
+        position: "top-center",
+      });
     }
   };
   useEffect(() => {

@@ -3,11 +3,12 @@ import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Button } from "./ui/button";
 import axios from "axios";
-import { toast } from "sonner";
+// import { toast } from "sonner";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Loader2 } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { setAuthUser } from "@/redux/authSlice";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const [inputFields, setInputFields] = useState({
@@ -39,7 +40,9 @@ const Login = () => {
       // console.log(res.data.data);
       if (res?.data.statusInfo == "success") {
         dispatch(setAuthUser(res.data.data));
-        toast.success(res.data.message);
+        toast.success(res.data.message, {
+          position: "top-center",
+        });
         setInputFields({
           email: "",
           password: "",
@@ -49,7 +52,9 @@ const Login = () => {
       }
     } catch (error) {
       // console.log(error.response);
-      toast.error(error?.response?.data.message);
+      toast.error(error?.response?.data.message, {
+        position: "top-center",
+      });
     } finally {
       setLoading(false);
     }

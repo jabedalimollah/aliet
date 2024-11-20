@@ -14,6 +14,8 @@ import { setSocket } from "./redux/socketSlice";
 import { setOnlineUsers } from "./redux/chatSlice";
 import { setLikeNotification } from "./redux/notificationSlice";
 import ProtectedRoutes from "./components/ProtectedRoutes";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const browserRouter = createBrowserRouter([
   {
     path: "/",
@@ -103,6 +105,7 @@ function App() {
   return (
     <>
       <RouterProvider router={browserRouter} />
+      <ToastContainer />
     </>
   );
 }

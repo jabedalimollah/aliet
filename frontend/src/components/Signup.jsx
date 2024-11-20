@@ -3,10 +3,11 @@ import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Button } from "./ui/button";
 import axios from "axios";
-import { toast } from "sonner";
+// import { toast } from "sonner";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Loader2 } from "lucide-react";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 const Signup = () => {
   const [inputFields, setInputFields] = useState({
@@ -37,7 +38,9 @@ const Signup = () => {
       );
       //   console.log(res.data.statusInfo);
       if (res.data.statusInfo == "success") {
-        toast.success(res.data.message);
+        toast.success(res.data.message, {
+          position: "top-center",
+        });
         setInputFields({
           username: "",
           email: "",
@@ -47,7 +50,9 @@ const Signup = () => {
       }
     } catch (error) {
       //   console.log(error);
-      toast.error(error.response.data.message);
+      toast.error(error.response.data.message, {
+        position: "top-center",
+      });
     } finally {
       setLoading(false);
     }

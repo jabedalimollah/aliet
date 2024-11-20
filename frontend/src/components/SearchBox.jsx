@@ -97,7 +97,7 @@ const SearchBox = () => {
                       </h1>
                       <span className="text-gray-600 text-sm">
                         {/* {item?.bio || "Bio here..."} */}
-                        {item.username}
+                        {item?.name}
                       </span>
                     </label>{" "}
                   </NavLink>
@@ -165,7 +165,7 @@ const SearchBox = () => {
                       </h1>
                       <span className="text-gray-600 text-sm">
                         {/* {item?.bio || "Bio here..."} */}
-                        {item.username}
+                        {item?.name}
                       </span>
                     </label>{" "}
                   </NavLink>

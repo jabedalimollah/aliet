@@ -5,10 +5,11 @@ import { Textarea } from "./ui/textarea";
 import { Button } from "./ui/button";
 import { readFileAsDataURL } from "@/lib/utils";
 import { Loader2 } from "lucide-react";
-import { toast } from "sonner";
+// import { toast } from "sonner";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { setPosts } from "@/redux/postSlice";
+import { toast } from "react-toastify";
 
 const CreatePost = ({ open, setOpen }) => {
   const [file, setFile] = useState("");
@@ -49,12 +50,16 @@ const CreatePost = ({ open, setOpen }) => {
       // console.log(res);
       if (res.data.statusInfo == "success") {
         dispatch(setPosts([...posts, res.data.data]));
-        toast.success(res.data.message);
+        toast.success(res.data.message, {
+          position: "top-center",
+        });
         setOpen(false);
       }
     } catch (error) {
       // console.log(error);
-      toast.error(error.response.data.message);
+      toast.error(error.response.data.message, {
+        position: "top-center",
+      });
     } finally {
       setLoading(false);
     }

@@ -15,7 +15,8 @@ import { Loader2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { setAuthUser } from "@/redux/authSlice";
-import { toast } from "sonner";
+import { toast } from "react-toastify";
+// import { toast } from "sonner";
 
 const EditProfile = () => {
   const { user } = useSelector((state) => state.auth);
@@ -41,6 +42,7 @@ const EditProfile = () => {
   const editProfileHandler = async () => {
     // console.log(input);
     const formData = new FormData();
+    formData.append("name", input.name);
     formData.append("bio", input.bio);
     formData.append("gender", input.gender);
     if (input.profilePicture) {
@@ -62,24 +64,31 @@ const EditProfile = () => {
       if (res.data.statusInfo == "success") {
         const updatedUserData = {
           ...user,
+          name: res.data.data?.name,
           bio: res.data.data?.bio,
           profilePicture: res.data?.data?.profilePicture,
           gender: res.data?.data?.gender,
         };
 
         dispatch(setAuthUser(updatedUserData));
-        toast.success(res.data.message);
+        toast.success(res.data.message, {
+          position: "top-center",
+        });
         navigate(`/profile/${user?._id}`);
       }
     } catch (error) {
       console.log(error);
-      toast.error(error.response.data.message);
+      toast.error(error.response.data.message, {
+        position: "top-center",
+      });
     } finally {
       setLoading(false);
     }
   };
+  // console.log(user);
   useEffect(() => {
     setInput({
+      name: user?.name,
       profilePicture: user?.profilePicture,
       bio: user?.bio,
       gender: user?.gender,
@@ -98,7 +107,7 @@ const EditProfile = () => {
 
             <div className="w-full">
               <h1 className="font-bold text-sm">{user?.username}</h1>
-              <span className="text-gray-600 ">{user?.username}</span>
+              <span className="text-gray-600 ">{user?.name}</span>
               {/* <span className="text-gray-600 ">{user?.bio}</span> */}
             </div>
           </div>
@@ -114,6 +123,16 @@ const EditProfile = () => {
           >
             Change photo
           </Button>
+        </div>
+        <div>
+          <h1 className="font-bold text-xl mb-2">Name</h1>
+          <input
+            type="text"
+            value={input.name}
+            name="name"
+            onChange={(e) => setInput({ ...input, name: e.target.value })}
+            className="w-full p-2 outline-none border rounded-md"
+          />
         </div>
         <div>
           <h1 className="font-bold text-xl mb-2">Bio</h1>

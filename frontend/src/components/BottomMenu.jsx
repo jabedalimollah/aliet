@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import React, { useEffect, useState } from "react";
-import { toast } from "sonner";
+// import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,6 +20,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Button } from "./ui/button";
 import { setLikeNotification } from "@/redux/notificationSlice";
 import SearchBox from "./SearchBox";
+import { toast } from "react-toastify";
 
 const BottomMenu = () => {
   const [open, setOpen] = useState(false);
@@ -43,10 +44,14 @@ const BottomMenu = () => {
         dispatch(setSelectedPost(null));
         dispatch(setPosts([]));
         navigate("/login");
-        toast.success(res.data.message);
+        toast.success(res.data.message, {
+          position: "top-center",
+        });
       }
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(error.response.data.message, {
+        position: "top-center",
+      });
       //   console.log(error);
     }
   };

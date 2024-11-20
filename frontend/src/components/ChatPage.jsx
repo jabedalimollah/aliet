@@ -6,10 +6,11 @@ import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { MessageCircle, MessageCircleCode } from "lucide-react";
 import Messages from "./Messages";
-import { toast } from "sonner";
+// import { toast } from "sonner";
 import axios from "axios";
 import { MdArrowBack } from "react-icons/md";
 import { NavLink } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const ChatPage = () => {
   const [message, setMessage] = useState("");
@@ -40,7 +41,9 @@ const ChatPage = () => {
       }
     } catch (error) {
       console.log(error);
-      toast.error(error?.response?.data.message);
+      toast.error(error?.response?.data.message, {
+        position: "top-center",
+      });
     }
   };
   // console.log(selectedUser);

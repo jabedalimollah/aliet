@@ -17,12 +17,13 @@ import { FiMessageCircle } from "react-icons/fi";
 import { FiSend } from "react-icons/fi";
 import CommentDialog from "./CommentDialog";
 import { useDispatch, useSelector } from "react-redux";
-import { toast } from "sonner";
+// import { toast } from "sonner";
 import axios from "axios";
 import { setPosts, setSelectedPost } from "@/redux/postSlice";
 import { Badge } from "./ui/badge";
 import { setAuthUser } from "@/redux/authSlice";
 import { NavLink } from "react-router-dom";
+import { toast } from "react-toastify";
 const Post = ({ post }) => {
   const [text, setText] = useState("");
   const [open, setOpen] = useState(false);
@@ -69,11 +70,15 @@ const Post = ({ post }) => {
             : singlePost
         );
         dispatch(setPosts(updatedPostData));
-        toast.success(res.data.message);
+        toast.success(res.data.message, {
+          position: "top-center",
+        });
       }
     } catch (error) {
       // console.log(error);
-      toast.error(error.response.data.message);
+      toast.error(error.response.data.message, {
+        position: "top-center",
+      });
     }
   };
 
@@ -103,12 +108,16 @@ const Post = ({ post }) => {
             : singlePost
         );
         dispatch(setPosts(updatedPostData));
-        toast.success(res.data.message);
+        toast.success(res.data.message, {
+          position: "top-center",
+        });
         setText("");
       }
     } catch (error) {
       // console.log(error.response.data.message);
-      toast.error(error.response.data.message);
+      toast.error(error.response.data.message, {
+        position: "top-center",
+      });
     }
   };
 
@@ -127,11 +136,15 @@ const Post = ({ post }) => {
           (postItem) => postItem?._id != post?._id
         );
         dispatch(setPosts(updatedPostData));
-        toast.success(res.data.message);
+        toast.success(res.data.message, {
+          position: "top-center",
+        });
       }
     } catch (error) {
       console.log(error);
-      toast.error(error.response.data.message);
+      toast.error(error.response.data.message, {
+        position: "top-center",
+      });
     } finally {
       setLoading(false);
     }
@@ -151,11 +164,15 @@ const Post = ({ post }) => {
         // console.log(res.data.data, res.data.message);
         setBookmarkChecked(res.data.data?.bookmarks?.includes(post?._id));
 
-        toast.success(res.data.message);
+        toast.success(res.data.message, {
+          position: "top-center",
+        });
       }
     } catch (error) {
       console.log(error);
-      toast.error(error.response.data.message);
+      toast.error(error.response.data.message, {
+        position: "top-center",
+      });
     }
   };
 

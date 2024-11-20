@@ -4,7 +4,8 @@ import { NavLink } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { setAuthUser, setSuggestedUsers } from "@/redux/authSlice";
 import axios from "axios";
-import { toast } from "sonner";
+import { toast } from "react-toastify";
+// import { toast } from "sonner";
 
 const SuggestedUsers = () => {
   const { user, suggestedUsers } = useSelector((state) => state.auth);
@@ -37,12 +38,16 @@ const SuggestedUsers = () => {
         // suggestedUsers?.includes(res?.data.data.selectedUser)?
         // dispatch(setSuggestedUsers(suggestedUsers));
         if (res.data.statusInfo == "success") {
-          toast.success(res.data.message);
+          toast.success(res.data.message, {
+            position: "top-center",
+          });
         }
       }
     } catch (error) {
       console.log(error.response.data.message);
-      toast.error(error.response.data.message);
+      toast.error(error.response.data.message, {
+        position: "top-center",
+      });
     }
   };
 

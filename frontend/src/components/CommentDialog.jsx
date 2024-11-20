@@ -8,8 +8,9 @@ import { useDispatch, useSelector } from "react-redux";
 import Comment from "./Comment";
 import axios from "axios";
 import { setPosts } from "@/redux/postSlice";
-import { toast } from "sonner";
+// import { toast } from "sonner";
 import { MdArrowBackIos } from "react-icons/md";
+import { toast } from "react-toastify";
 
 const CommentDialog = ({ open, setOpen }) => {
   const [comment, setComment] = useState("");
@@ -52,13 +53,17 @@ const CommentDialog = ({ open, setOpen }) => {
             : singlePost
         );
         dispatch(setPosts(updatedPostData));
-        toast.success(res.data.message);
+        toast.success(res.data.message, {
+          position: "top-center",
+        });
         // setText("");
         setComment("");
       }
     } catch (error) {
       // console.log(error.response.data.message);
-      toast.error(error.response.data.message);
+      toast.error(error.response.data.message, {
+        position: "top-center",
+      });
     }
   };
 

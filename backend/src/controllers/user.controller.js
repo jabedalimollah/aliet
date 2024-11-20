@@ -10,7 +10,7 @@ import { cloudinary } from "../utils/cloudinary.js";
 
 // =================== Register ===================
 const register = asyncErrorHandler(async (req, res) => {
-  const { username, email, password } = req.body;
+  const { name, username, email, password } = req.body;
   if (!username || !email || !password) {
     throw new ApiError(401, "error", "Something is missing, please check");
   }
@@ -25,6 +25,7 @@ const register = asyncErrorHandler(async (req, res) => {
   } else {
     const hashedPassword = await bcrypt.hash(password, 10);
     const data = await User.create({
+      name: username,
       username,
       email,
       password: hashedPassword,
@@ -101,7 +102,7 @@ const getProfile = asyncErrorHandler(async (req, res) => {
 // ================== Update Profile =============
 const updateProfile = asyncErrorHandler(async (req, res) => {
   const userId = req.id;
-  const { bio, gender } = req.body;
+  const { name, bio, gender } = req.body;
   const profilePicture = req.file;
   let cloudinaryResponse;
   if (profilePicture) {
@@ -116,6 +117,7 @@ const updateProfile = asyncErrorHandler(async (req, res) => {
 
   if (bio) user.bio = bio;
   if (gender) user.gender = gender;
+  if (name) user.name = name;
   if (profilePicture) user.profilePicture = cloudinaryResponse.secure_url;
   await user.save();
   return res
