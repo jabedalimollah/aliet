@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  changePassword,
   followAndUnfollow,
   getFollowers,
   getFollowing,
@@ -25,5 +26,6 @@ router.route("/suggested").get(jwtAuthMiddleware, getSuggestedUsers);
 router.route("/followorunfollow/:id").get(jwtAuthMiddleware, followAndUnfollow);
 router.route("/followers/:id").get(jwtAuthMiddleware, getFollowers);
 router.route("/following/:id").get(jwtAuthMiddleware, getFollowing);
+router.route("/changepassword").post(jwtAuthMiddleware, changePassword);
 
 export default router;

@@ -220,6 +220,29 @@ const getFollowing = asyncErrorHandler(async (req, res) => {
     .json(new ApiResponse(200, following.following, "Get All Following"));
 });
 
+// =================== Change Password ====================
+const changePassword = asyncErrorHandler(async (req, res) => {
+  const id = req.id;
+  const { password, newPassword } = req.body;
+  const user = await User.findById(id);
+  if (!user) {
+    throw new ApiError(404, "fail", "user not found");
+  }
+  // const isPasswordCorrect = await user.comparePassword(password);
+  const isPasswordMatch = await bcrypt.compare(password, user.password);
+  if (!isPasswordMatch) {
+    throw new ApiError(404, "fail", "password incorrect");
+  }
+  const hashedPassword = await bcrypt.hash(newPassword, 10);
+  user.password = hashedPassword;
+  // await User.findByIdAndUpdate(id,{password:hashedPassword})
+  await user.save({ validateBeforeSave: false });
+
+  res
+    .status(200)
+    .json(new ApiResponse(200, null, "password changed successfully"));
+});
+
 // ========== Export ==========
 export {
   register,
@@ -231,4 +254,5 @@ export {
   followAndUnfollow,
   getFollowers,
   getFollowing,
+  changePassword,
 };

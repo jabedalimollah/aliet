@@ -16,7 +16,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { setAuthUser } from "@/redux/authSlice";
 import { toast } from "react-toastify";
-// import { toast } from "sonner";
+import ChangePassword from "./ChangePassword";
 
 const EditProfile = () => {
   const { user } = useSelector((state) => state.auth);
@@ -26,6 +26,7 @@ const EditProfile = () => {
     // gender: user?.gender,
   });
   const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState(false);
   const imageRef = useRef();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -171,6 +172,9 @@ const EditProfile = () => {
               Submit
             </Button>
           )}
+        </div>
+        <div>
+          <ChangePassword open={open} setOpen={setOpen} />
         </div>
       </section>
     </div>
