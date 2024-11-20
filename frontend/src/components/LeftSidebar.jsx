@@ -19,6 +19,7 @@ import { setPosts, setSelectedPost } from "@/redux/postSlice";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Button } from "./ui/button";
 import { setLikeNotification } from "@/redux/notificationSlice";
+import SearchBox from "./SearchBox";
 
 const LeftSidebar = () => {
   const [open, setOpen] = useState(false);
@@ -127,11 +128,13 @@ const LeftSidebar = () => {
                   key={index}
                   className="flex items-center justify-center lg:justify-start gap-4 relative hover:bg-gray-100 cursor-pointer rounded-lg p-3 my-3"
                 >
-                  {item.icon}
-                  <span className="inline-block md:hidden lg:inline-block">
-                    {" "}
-                    {item.text}
-                  </span>
+                  {item.text != "Search" && item.icon}
+                  {item.text != "Search" && (
+                    <span className="inline-block md:hidden lg:inline-block">
+                      {" "}
+                      {item.text}
+                    </span>
+                  )}
                   <>
                     {item.text === "Notifications" &&
                       likeNotification.length > 0 && (
@@ -224,6 +227,30 @@ const LeftSidebar = () => {
                       </PopoverTrigger>
                     </Popover>
                   )} */}
+
+                  {item.text === "Search" && (
+                    <div className="drawer">
+                      <input
+                        id="my-drawer"
+                        type="checkbox"
+                        className="drawer-toggle"
+                      />
+                      <div className="drawer-content">
+                        {/* Page content here */}
+                        <label
+                          htmlFor="my-drawer"
+                          className="w-full flex gap-4 md:justify-center lg:justify-start  drawer-button"
+                        >
+                          {item.icon}
+                          <span className="inline-block md:hidden lg:inline-block">
+                            {" "}
+                            {item.text}
+                          </span>
+                        </label>
+                      </div>
+                      <SearchBox />
+                    </div>
+                  )}
                 </div>
               );
             })}
