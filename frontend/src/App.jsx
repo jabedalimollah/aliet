@@ -16,6 +16,7 @@ import { setLikeNotification } from "./redux/notificationSlice";
 import ProtectedRoutes from "./components/ProtectedRoutes";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useSocketContext } from "./context/SocketContext";
 const browserRouter = createBrowserRouter([
   {
     path: "/",
@@ -72,7 +73,7 @@ const browserRouter = createBrowserRouter([
 function App() {
   const { user } = useSelector((state) => state.auth);
   const { socket } = useSelector((state) => state.socket);
-
+  // const { socket } = useSocketContext();
   const dispatch = useDispatch();
   useEffect(() => {
     if (user) {

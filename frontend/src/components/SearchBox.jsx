@@ -49,7 +49,7 @@ const SearchBox = () => {
         <div className="menu bg-base-200 text-base-content min-h-full w-80 p-4 hidden md:inline-block">
           <div className="w-full sticky top-0 left-0 z-30 bg-gray-100 p-4s">
             <div className="w-full flex items-center gap-x-2">
-              <label for="my-drawer" class="btn btn-circle btn-sm">
+              <label htmlFor="my-drawer" className="btn btn-circle btn-sm">
                 ✕
               </label>
               <h2 className="text-lg font-semibold">Search</h2>
@@ -76,11 +76,11 @@ const SearchBox = () => {
           <ul className="w-full">
             {allUser?.map((item, index) => (
               <li key={item?._id} className="w-full">
-                <label className="w-full flex" for="my-drawer">
+                <label className="w-full flex" htmlFor="my-drawer">
                   <NavLink
                     to={`/profile/${item?._id}`}
                     className={"w-full flex items-center gap-2"}
-                    for="my-drawer"
+                    htmlFor="my-drawer"
                   >
                     <Avatar>
                       <AvatarImage
@@ -91,7 +91,7 @@ const SearchBox = () => {
                     </Avatar>
                     {/* </NavLink>
                 <NavLink to={`/profile/${item?._id}`} className={"w-full"}> */}
-                    <label className="" for="my-drawer">
+                    <label className="" htmlFor="my-drawer">
                       <h1 className="font-semibold text-sm">
                         {item?.username}
                       </h1>
@@ -117,7 +117,7 @@ const SearchBox = () => {
         <div className="menu bg-base-200 text-base-content min-h-full w-80 p-4 pt-16 z-50 ">
           <div className="w-full  z-30 bg-gray-100 p-4s">
             <div className="w-full flex items-center gap-x-2">
-              <label for="my-drawer1" class="btn btn-circle btn-sm">
+              <label htmlFor="my-drawer1" className="btn btn-circle btn-sm">
                 ✕
               </label>
               <h2 className="text-lg font-semibold">Search</h2>
@@ -144,11 +144,11 @@ const SearchBox = () => {
           <ul className="w-full">
             {allUser?.map((item, index) => (
               <li key={item?._id} className="w-full">
-                <label className="w-full flex" for="my-drawer1">
+                <label className="w-full flex" htmlFor="my-drawer1">
                   <NavLink
                     to={`/profile/${item?._id}`}
                     className={"w-full flex items-center gap-2"}
-                    for="my-drawer1"
+                    htmlFor="my-drawer1"
                   >
                     <Avatar>
                       <AvatarImage
@@ -159,7 +159,7 @@ const SearchBox = () => {
                     </Avatar>
                     {/* </NavLink>
                 <NavLink to={`/profile/${item?._id}`} className={"w-full"}> */}
-                    <label className="" for="my-drawer1">
+                    <label className="" htmlFor="my-drawer1">
                       <h1 className="font-semibold text-sm">
                         {item?.username}
                       </h1>

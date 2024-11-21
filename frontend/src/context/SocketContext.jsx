@@ -1,39 +1,45 @@
 import { setOnlineUsers } from "@/redux/chatSlice";
+import { setLikeNotification } from "@/redux/notificationSlice";
 import { createContext, useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { io } from "socket.io-client";
+
 const socketContext = createContext();
+
 const useSocketContext = () => {
   return useContext(socketContext);
 };
+
 const SocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
-  // const [onlineUsers, setOnlineUsers] = useState([]);
   const { user } = useSelector((state) => state.auth);
-
   const dispatch = useDispatch();
+
   useEffect(() => {
     if (user) {
-      // const socket = io('http://localhost:8000', {
       const socket = io(`${import.meta.env.VITE_APP_URI}`, {
         query: {
           userId: user?._id,
         },
         transports: ["websocket"],
       });
-      setSocket(socket);
-      socket.on("getOnlineUsers", (users) => {
-        // setOnlineUsers(users);
-        dispatch(setOnlineUsers(users));
+
+      socket.on("getOnlineUsers", (onlineUser) => {
+        dispatch(setOnlineUsers(onlineUser));
       });
-      return () => socket.close();
-    } else {
-      if (socket) {
+      socket.on("notification", (notification) => {
+        dispatch(setLikeNotification(notification));
+      });
+      return () => {
         socket.close();
-        setSocket(null);
-      }
+        dispatch(setSocket(null));
+      };
+    } else if (socket) {
+      socket.close();
+      dispatch(setSocket(null));
     }
-  }, [user]);
+  }, [user, dispatch]);
+
   return (
     <socketContext.Provider value={{ socket }}>
       {children}

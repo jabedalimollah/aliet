@@ -19,6 +19,7 @@ const ChatPage = () => {
     (state) => state.chat
   );
   // console.log(selectedUser);
+
   const dispatch = useDispatch();
   //   console.log(messages);
   const sendMessageHandler = async (receiverId) => {

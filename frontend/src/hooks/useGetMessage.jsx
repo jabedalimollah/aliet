@@ -4,10 +4,10 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 const useGetMessage = () => {
+  // const { socket } = useSocketContext();
   const { messages } = useSelector((state) => state.chat);
   const { socket } = useSelector((state) => state.socket);
   // const [socket, setSocket] = useState(null);
-  // const { socket } = useSocketContext();
 
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
