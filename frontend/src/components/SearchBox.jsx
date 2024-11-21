@@ -10,7 +10,7 @@ const SearchBox = () => {
 
   const handleSearchBox = (e) => {
     setSearch(e.target.value);
-    console.log(e.target.value);
+    // console.log(e.target.value);
     let newData = [];
     newData = suggestedUsers.filter((item) => {
       return (

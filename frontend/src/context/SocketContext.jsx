@@ -23,7 +23,7 @@ const SocketProvider = ({ children }) => {
         },
         transports: ["websocket"],
       });
-
+      setSocket(socket);
       socket.on("getOnlineUsers", (onlineUser) => {
         dispatch(setOnlineUsers(onlineUser));
       });
@@ -32,11 +32,13 @@ const SocketProvider = ({ children }) => {
       });
       return () => {
         socket.close();
-        dispatch(setSocket(null));
+        // dispatch(setSocket(null));
+        setSocket(null);
       };
     } else if (socket) {
       socket.close();
-      dispatch(setSocket(null));
+      // dispatch(setSocket(null));
+      setSocket(null);
     }
   }, [user, dispatch]);
 

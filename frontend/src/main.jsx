@@ -13,9 +13,9 @@ createRoot(document.getElementById("root")).render(
   <StrictMode>
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        {/* <SocketProvider> */}
-        <App />
-        {/* </SocketProvider> */}
+        <SocketProvider>
+          <App />
+        </SocketProvider>
 
         <Toaster />
       </PersistGate>

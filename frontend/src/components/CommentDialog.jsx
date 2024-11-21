@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "./ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+  DialogTrigger,
+} from "./ui/dialog";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { NavLink } from "react-router-dom";
 import { MoreHorizontal } from "lucide-react";
@@ -80,6 +86,7 @@ const CommentDialog = ({ open, setOpen }) => {
           className="max-m-5xl max-w-3xl p-0 flex flex-col"
         >
           <DialogTitle className="hidden"></DialogTitle>
+          <DialogDescription></DialogDescription>
           <div className="flex flex-1">
             <div className="w-1/2 hidden md:inline-block">
               <img

@@ -1,5 +1,11 @@
 import React, { useRef, useState } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "./ui/dialog";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Textarea } from "./ui/textarea";
 import { Button } from "./ui/button";
@@ -69,6 +75,7 @@ const CreatePost = ({ open, setOpen }) => {
       <Dialog open={open}>
         <DialogContent onInteractOutside={() => setOpen(false)}>
           <DialogTitle className="hidden" />
+          <DialogDescription></DialogDescription>
           <DialogHeader className={"text-center font-semibold"}>
             Create New Post
           </DialogHeader>

@@ -34,7 +34,7 @@ const ChatPage = () => {
           withCredentials: true,
         }
       );
-      console.log(res?.data.data);
+      // console.log(res?.data.data);
       if (res?.data?.statusInfo == "success") {
         dispatch(setMessages([...messages, res.data.data]));
         setMessage("");

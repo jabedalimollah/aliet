@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -127,6 +128,7 @@ const Followers = ({ userProfile }) => {
             }
           >
             <DialogTitle className="">Followers</DialogTitle>
+            <DialogDescription></DialogDescription>
             <Button
               variant="outline"
               className={"flex bg-transparent border-none outline-none"}

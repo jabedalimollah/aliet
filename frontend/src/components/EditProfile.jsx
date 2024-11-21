@@ -24,6 +24,10 @@ const EditProfile = () => {
     // profilePicture: user?.profilePicture,
     // bio: user?.bio,
     // gender: user?.gender,
+    name: "",
+    profilePicture: "",
+    bio: "",
+    gender: "",
   });
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);

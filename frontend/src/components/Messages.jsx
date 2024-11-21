@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
 import { NavLink } from "react-router-dom";
@@ -11,6 +11,10 @@ const Messages = ({ selectedUser }) => {
   useGetAllMessages();
   const { user } = useSelector((state) => state.auth);
   const { messages } = useSelector((state) => state.chat);
+  const scroll = useRef();
+  useEffect(() => {
+    scroll.current?.scrollIntoView({ behavior: "smooth" });
+  }, []);
   return (
     <div className="overflow-y-auto flex-1 p-4">
       <div className="flex justify-center">
@@ -31,6 +35,8 @@ const Messages = ({ selectedUser }) => {
         {messages &&
           messages.map((message) => (
             <div
+              ref={scroll}
+              key={message?._id}
               className={`flex ${
                 message?.senderId === user?._id
                   ? "justify-end"
