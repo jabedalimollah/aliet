@@ -9,10 +9,12 @@ import { useSelector } from "react-redux";
 import { Outlet } from "react-router-dom";
 
 const Home = () => {
-  const { user } = useSelector((state) => state.auth);
+  // const { user } = useSelector((state) => state.auth);
   useGetAllPost();
   useGetSuggestedUsers();
-  useGetAuthUserProfile(user?._id);
+  let a = localStorage.getItem("persist:root");
+  // console.log(a);
+  useGetAuthUserProfile();
   return (
     <div className="flex ">
       <div className="flex-grow">

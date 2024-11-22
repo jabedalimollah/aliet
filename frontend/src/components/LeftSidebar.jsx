@@ -13,7 +13,11 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { setAuthUser } from "@/redux/authSlice";
+import {
+  setAuthUser,
+  setSuggestedUsers,
+  setUserProfile,
+} from "@/redux/authSlice";
 import CreatePost from "./CreatePost";
 import { setPosts, setSelectedPost } from "@/redux/postSlice";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
@@ -21,6 +25,12 @@ import { Button } from "./ui/button";
 import { setLikeNotification } from "@/redux/notificationSlice";
 import SearchBox from "./SearchBox";
 import { toast } from "react-toastify";
+import {
+  setMessages,
+  setOnlineUsers,
+  setSelectedUser,
+} from "@/redux/chatSlice";
+// import { persistor } from "@/redux/store";
 
 const LeftSidebar = () => {
   const [open, setOpen] = useState(false);
@@ -43,6 +53,18 @@ const LeftSidebar = () => {
         dispatch(setAuthUser(null));
         dispatch(setSelectedPost(null));
         dispatch(setPosts([]));
+        dispatch(setSuggestedUsers([]));
+        dispatch(setUserProfile(null));
+        dispatch(setSelectedUser(null));
+        dispatch(setOnlineUsers([]));
+        dispatch(setMessages([]));
+        dispatch(setLikeNotification([]));
+        localStorage.removeItem("persist:root");
+        // persistor.purge().then(() => {
+        //   console.log("User logged out and state cleared.");
+        //   // localStorage.removeItem("persist:root");
+        // });
+
         navigate("/login");
         toast.success(res.data.message, {
           position: "top-center",
@@ -106,8 +128,17 @@ const LeftSidebar = () => {
     {
       icon: (
         <Avatar className={"w-6 h-6"}>
-          <AvatarImage src={user?.profilePicture} alt="profile_Picture" />
-          <AvatarFallback>{user?.username}</AvatarFallback>
+          <AvatarImage
+            src={
+              user?.profilePicture?.length != 0
+                ? user?.profilePicture
+                : "images/default_profile.png"
+            }
+            alt="profile_Picture"
+          />
+          <AvatarFallback className={"bg-gray-200"}>
+            {user?.username[0]}
+          </AvatarFallback>
         </Avatar>
       ),
       text: "Profile",
@@ -119,6 +150,7 @@ const LeftSidebar = () => {
   ];
 
   // useEffect(() => {}, [likeNotification, dispatch]);
+
   return (
     <>
       <div className="px-4 border-r border-gray-300 w-[16%] md:w-fit lg:w-[16%] h-screen hidden md:inline-block">

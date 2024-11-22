@@ -91,6 +91,17 @@ const logout = asyncErrorHandler(async (req, res) => {
 
 // ================= Get Profile =================
 const getProfile = asyncErrorHandler(async (req, res) => {
+  const userId = req.id;
+  // const userId = req.params.id;
+  let user = await User.findById(userId)
+    .populate({ path: "posts", createdAt: -1 })
+    .populate("bookmarks")
+    .select("-password");
+  return res.status(200).json(new ApiResponse(200, user, "Success"));
+});
+// ================= Get User Profile =================
+const getUserProfile = asyncErrorHandler(async (req, res) => {
+  // const userId = req.id;
   const userId = req.params.id;
   let user = await User.findById(userId)
     .populate({ path: "posts", createdAt: -1 })
@@ -199,7 +210,7 @@ const getFollowers = asyncErrorHandler(async (req, res) => {
 
   let followers = await user.populate({
     path: "followers",
-    select: "_id username profilePicture bio",
+    select: "_id name username profilePicture bio",
   });
   return res
     .status(200)
@@ -213,7 +224,7 @@ const getFollowing = asyncErrorHandler(async (req, res) => {
 
   let following = await user.populate({
     path: "following",
-    select: "_id username profilePicture bio",
+    select: "_id name username profilePicture bio",
   });
   return res
     .status(200)
@@ -243,16 +254,38 @@ const changePassword = asyncErrorHandler(async (req, res) => {
     .json(new ApiResponse(200, null, "password changed successfully"));
 });
 
+// =================== Delete User Account ====================
+const deleteProfile = asyncErrorHandler(async (req, res) => {
+  const id = req.id;
+  const { password } = req.body;
+  const user = await User.findById(id);
+  if (!user) {
+    throw new ApiError(404, "fail", "user not found");
+  }
+
+  const isPasswordMatch = await bcrypt.compare(password, user.password);
+  if (!isPasswordMatch) {
+    throw new ApiError(404, "fail", "password incorrect");
+  }
+
+  res
+    .status(200)
+    .json(
+      new ApiResponse(200, { id, password }, "Delete Account Successfully")
+    );
+});
 // ========== Export ==========
 export {
   register,
   login,
   logout,
   getProfile,
+  getUserProfile,
   updateProfile,
   getSuggestedUsers,
   followAndUnfollow,
   getFollowers,
   getFollowing,
   changePassword,
+  deleteProfile,
 };

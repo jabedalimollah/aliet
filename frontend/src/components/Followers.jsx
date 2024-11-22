@@ -51,9 +51,9 @@ const Followers = ({ userProfile }) => {
       // dispatch(setUserProfile(res?.data.data.selectedUser));
       setClose(false);
       if (res.data.statusInfo == "success") {
-        toast.success(res.data.message, {
-          position: "top-center",
-        });
+        // toast.success(res.data.message, {
+        //   position: "top-center",
+        // });
         getFollowers();
       }
     } catch (error) {
@@ -168,13 +168,13 @@ const Followers = ({ userProfile }) => {
                         src={item?.profilePicture}
                         alt="profile_photo"
                       />
-                      <AvatarFallback>{item?.username}</AvatarFallback>
+                      <AvatarFallback>{item?.username[0]}</AvatarFallback>
                     </Avatar>
                   </section>
                   <div className="flex-1">
                     <h1 className="font-semibold">{item?.username}</h1>
                     <span className="font-normal text-gray-600">
-                      {item?.username}
+                      {item?.name}
                     </span>
                   </div>
                 </NavLink>

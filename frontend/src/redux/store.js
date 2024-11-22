@@ -6,6 +6,7 @@ import socketReducer from "./socketSlice";
 import notificationReducer from "./notificationSlice";
 import {
   persistReducer,
+  persistStore,
   FLUSH,
   REHYDRATE,
   PAUSE,
@@ -38,3 +39,4 @@ export const store = configureStore({
       },
     }),
 });
+// export const persistor = persistStore(store);

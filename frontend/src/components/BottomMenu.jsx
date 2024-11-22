@@ -99,7 +99,14 @@ const BottomMenu = () => {
     {
       icon: (
         <Avatar className={"w-6 h-6"}>
-          <AvatarImage src={user?.profilePicture} alt="profile_Picture" />
+          <AvatarImage
+            src={
+              user?.profilePicture.length == 0
+                ? "images/default_profile.png"
+                : user?.profilePicture
+            }
+            alt="profile_Picture"
+          />
           <AvatarFallback>{user?.username}</AvatarFallback>
         </Avatar>
       ),

@@ -11,6 +11,7 @@ import axios from "axios";
 import { MdArrowBack } from "react-icons/md";
 import { NavLink } from "react-router-dom";
 import { toast } from "react-toastify";
+import useGetAuthUserProfile from "@/hooks/useGetAuthUserProfile";
 
 const ChatPage = () => {
   const [message, setMessage] = useState("");
@@ -19,7 +20,7 @@ const ChatPage = () => {
     (state) => state.chat
   );
   // console.log(selectedUser);
-
+  useGetAuthUserProfile();
   const dispatch = useDispatch();
   //   console.log(messages);
   const sendMessageHandler = async (receiverId) => {
@@ -81,7 +82,7 @@ const ChatPage = () => {
                     src={user?.profilePicture}
                     alt="profile_picture"
                   />
-                  <AvatarFallback>{user?.username}</AvatarFallback>
+                  <AvatarFallback>{user?.username[0]}</AvatarFallback>
                 </Avatar>
                 <div className="flex flex-col">
                   <span className="font-medium">{user?.username}</span>

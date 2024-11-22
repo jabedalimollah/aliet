@@ -9,7 +9,7 @@ const useGetUserProfile = (userId) => {
     const fetchUserProfile = async () => {
       try {
         const res = await axios.get(
-          `${import.meta.env.VITE_APP_API_KEY}/user/${userId}/profile`,
+          `${import.meta.env.VITE_APP_API_KEY}/user/profile/${userId}`,
           {
             withCredentials: true,
           }

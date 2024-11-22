@@ -7,13 +7,13 @@ import SuggestedUsers from "./SuggestedUsers";
 const RighSidebar = () => {
   const { user } = useSelector((state) => state.auth);
   return (
-    <div className=" w-[30%] overflow-hidden hidden lg:flex flex-col items-start my-10">
+    <div className=" w-[30%] overflow-hidden hidden lg:flex flex-col items-start my-10 px-6">
       {/* <div className=" lg:w-[30%] overflow-hidden px-3 my-10  pr-32"> */}
       <div className="flex items-center gap-2">
         <NavLink to={`/profile/${user?._id}`}>
           <Avatar>
             <AvatarImage src={user?.profilePicture} alt="post_image" />
-            <AvatarFallback>{user?.username}</AvatarFallback>
+            <AvatarFallback>{user?.username[0]}</AvatarFallback>
           </Avatar>
         </NavLink>
 

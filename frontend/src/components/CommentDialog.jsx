@@ -86,7 +86,7 @@ const CommentDialog = ({ open, setOpen }) => {
           className="max-m-5xl max-w-3xl p-0 flex flex-col"
         >
           <DialogTitle className="hidden"></DialogTitle>
-          <DialogDescription></DialogDescription>
+          <DialogDescription className="hidden"></DialogDescription>
           <div className="flex flex-1">
             <div className="w-1/2 hidden md:inline-block">
               <img
@@ -115,7 +115,7 @@ const CommentDialog = ({ open, setOpen }) => {
                         alt="post_image"
                       />
                       <AvatarFallback>
-                        {selectedPost?.author?.username}
+                        {selectedPost?.author?.username[0]}
                       </AvatarFallback>
                     </Avatar>
                   </NavLink>

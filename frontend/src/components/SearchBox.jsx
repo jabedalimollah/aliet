@@ -87,7 +87,7 @@ const SearchBox = () => {
                         src={item?.profilePicture}
                         alt="post_image"
                       />
-                      <AvatarFallback>{item?.username}</AvatarFallback>
+                      <AvatarFallback>{item?.username[0]}</AvatarFallback>
                     </Avatar>
                     {/* </NavLink>
                 <NavLink to={`/profile/${item?._id}`} className={"w-full"}> */}

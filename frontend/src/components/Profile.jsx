@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import useGetUserProfile from "@/hooks/useGetUserProfile";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
@@ -13,15 +13,18 @@ import { setSelectedUser } from "@/redux/chatSlice";
 import Followers from "./Followers";
 import Following from "./Following";
 import { toast } from "react-toastify";
+import useGetAuthUserProfile from "@/hooks/useGetAuthUserProfile";
 
 const Profile = () => {
   const { user, userProfile } = useSelector((state) => state.auth);
   const [activeTab, setActiveTab] = useState("posts");
   const dispatch = useDispatch();
   const params = useParams();
+  useGetAuthUserProfile();
   useGetUserProfile(params.id);
+
   const navigate = useNavigate();
-  // console.log(userProfile);
+  // console.log(user);
   const isLoggedInUserProfile = user?._id == userProfile?._id;
   const isFollowing = false;
   const handleTabChange = (tab) => {
@@ -50,9 +53,9 @@ const Profile = () => {
         dispatch(setAuthUser(res?.data.data.user));
         dispatch(setUserProfile(res?.data.data.selectedUser));
         if (res.data.statusInfo == "success") {
-          toast.success(res.data.message, {
-            position: "top-center",
-          });
+          // toast.success(res.data.message, {
+          //   position: "top-center",
+          // });
         }
       }
     } catch (error) {
@@ -67,6 +70,7 @@ const Profile = () => {
     dispatch(setSelectedUser(userProfile));
     navigate("/chat");
   };
+
   // console.log(user.following?.includes(userProfile?._id));
   // console.log(user);
   // console.log(user?.followers?.includes(userProfile?._id));

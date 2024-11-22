@@ -1,21 +1,22 @@
 import { setAuthUser, setUserProfile } from "@/redux/authSlice";
 import axios from "axios";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
-const useGetAuthUserProfile = (userId) => {
+const useGetAuthUserProfile = () => {
+  const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   useEffect(() => {
     const fetchAuthProfile = async () => {
       try {
         const res = await axios.get(
-          `${import.meta.env.VITE_APP_API_KEY}/user/${userId}/profile`,
+          `${import.meta.env.VITE_APP_API_KEY}/user/getprofile`,
           {
             withCredentials: true,
           }
         );
         if (res.data.statusInfo == "success") {
-          // console.log(res.data);
+          // console.log(res.data.data);
           dispatch(setAuthUser(res.data.data));
         }
       } catch (error) {
@@ -23,7 +24,7 @@ const useGetAuthUserProfile = (userId) => {
       }
     };
     fetchAuthProfile();
-  }, [userId]);
+  }, []);
 };
 
 export default useGetAuthUserProfile;

@@ -17,6 +17,7 @@ import axios from "axios";
 import { setAuthUser } from "@/redux/authSlice";
 import { toast } from "react-toastify";
 import ChangePassword from "./ChangePassword";
+import DeleteAccount from "./DeleteAccount";
 
 const EditProfile = () => {
   const { user } = useSelector((state) => state.auth);
@@ -30,7 +31,7 @@ const EditProfile = () => {
     gender: "",
   });
   const [loading, setLoading] = useState(false);
-  const [open, setOpen] = useState(false);
+
   const imageRef = useRef();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -107,7 +108,9 @@ const EditProfile = () => {
           <div className="flex items-center gap-3">
             <Avatar>
               <AvatarImage src={user?.profilePicture} alt="post_image" />
-              <AvatarFallback>{user?.username}</AvatarFallback>
+              <AvatarFallback className={"bg-gray-200"}>
+                {user?.username[0]}
+              </AvatarFallback>
             </Avatar>
 
             <div className="w-full">
@@ -178,7 +181,10 @@ const EditProfile = () => {
           )}
         </div>
         <div>
-          <ChangePassword open={open} setOpen={setOpen} />
+          <ChangePassword />
+        </div>
+        <div>
+          <DeleteAccount />
         </div>
       </section>
     </div>

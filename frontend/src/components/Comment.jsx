@@ -7,7 +7,7 @@ const Comment = ({ comment }) => {
       <div className="flex gap-3 items-center">
         <Avatar>
           <AvatarImage src={comment?.author?.profilePicture} />
-          <AvatarFallback>{comment?.author?.username}</AvatarFallback>
+          <AvatarFallback>{comment?.author?.username[0]}</AvatarFallback>
         </Avatar>
         <h1 className="font-bold text-sm">{comment?.author?.username}</h1>
         <span className="font-normal pl-1">{comment?.text}</span>

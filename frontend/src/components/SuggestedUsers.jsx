@@ -38,9 +38,9 @@ const SuggestedUsers = () => {
         // suggestedUsers?.includes(res?.data.data.selectedUser)?
         // dispatch(setSuggestedUsers(suggestedUsers));
         if (res.data.statusInfo == "success") {
-          toast.success(res.data.message, {
-            position: "top-center",
-          });
+          // toast.success(res.data.message, {
+          //   position: "top-center",
+          // });
         }
       }
     } catch (error) {
@@ -53,7 +53,7 @@ const SuggestedUsers = () => {
 
   return (
     <div className="my-10">
-      <div className="flex items-center justify-between text-sm">
+      <div className="flex items-center justify-between text-sm gap-x-2">
         <h1 className="font-semibold text-gray-600">Suggested for you</h1>
         <span className="font-medium cursor-pointer">See All</span>
       </div>
@@ -71,7 +71,7 @@ const SuggestedUsers = () => {
                       src={people?.profilePicture}
                       alt="post_image"
                     />
-                    <AvatarFallback>{people?.username}</AvatarFallback>
+                    <AvatarFallback>{people?.username[0]}</AvatarFallback>
                   </Avatar>
                 </NavLink>
 
@@ -81,8 +81,9 @@ const SuggestedUsers = () => {
                       {people?.username}
                     </NavLink>
                   </h1>
-                  <span className="text-gray-600 text-sm">
-                    {people?.bio || "Bio here..."}
+                  <span className="text-gray-600 text-sm ">
+                    {/* {people?.bio || "Bio here..."} */}
+                    {people?.name}
                   </span>
                 </div>
               </div>
