@@ -59,9 +59,9 @@ const CommentDialog = ({ open, setOpen }) => {
             : singlePost
         );
         dispatch(setPosts(updatedPostData));
-        toast.success(res.data.message, {
-          position: "top-center",
-        });
+        // toast.success(res.data.message, {
+        //   position: "top-center",
+        // });
         // setText("");
         setComment("");
       }

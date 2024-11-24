@@ -18,10 +18,7 @@ const SearchBox = () => {
           item.username.toLowerCase().indexOf(e.target.value.toLowerCase()) ===
           -1
         ) ||
-        !(
-          item.username.toLowerCase().indexOf(e.target.value.toLowerCase()) ===
-          -1
-        )
+        !(item.name.toLowerCase().indexOf(e.target.value.toLowerCase()) === -1)
       );
     });
     // console.log(newData);
@@ -37,7 +34,7 @@ const SearchBox = () => {
   };
   useEffect(() => {
     setAllUser(suggestedUsers);
-  }, []);
+  }, [suggestedUsers]);
   return (
     <>
       <div className="drawer-side z-0 md:z-50 ">

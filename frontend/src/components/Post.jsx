@@ -70,9 +70,9 @@ const Post = ({ post }) => {
             : singlePost
         );
         dispatch(setPosts(updatedPostData));
-        toast.success(res.data.message, {
-          position: "top-center",
-        });
+        // toast.success(res.data.message, {
+        //   position: "top-center",
+        // });
       }
     } catch (error) {
       // console.log(error);

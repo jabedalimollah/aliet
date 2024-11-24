@@ -37,4 +37,21 @@ const deleteOnCloudinary = async (publicId) => {
   }
 };
 
-export { cloudinary, uploadOnCloudinary, deleteOnCloudinary };
+const deleteAllPostImages = async (publicId) => {
+  try {
+    await cloudinary.uploader.destroy(publicId, (error, result) => {
+      if (error) console.error("Error deleting image:", error);
+      else console.log("Deleted from Cloudinary:", result);
+    });
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};
+
+export {
+  cloudinary,
+  uploadOnCloudinary,
+  deleteOnCloudinary,
+  deleteAllPostImages,
+};

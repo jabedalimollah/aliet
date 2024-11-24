@@ -16,11 +16,26 @@ import { Button } from "./ui/button";
 import { toast } from "react-toastify";
 import { Loader2 } from "lucide-react";
 import axios from "axios";
+import {
+  setAuthUser,
+  setSuggestedUsers,
+  setUserProfile,
+} from "@/redux/authSlice";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { setPosts, setSelectedPost } from "@/redux/postSlice";
+import {
+  setMessages,
+  setOnlineUsers,
+  setSelectedUser,
+} from "@/redux/chatSlice";
+import { setLikeNotification } from "@/redux/notificationSlice";
 const DeleteAccount = () => {
   const [password, setPassword] = useState("");
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const handleCloseDialogBtn = () => {
     setOpen(false);
     setPassword("");
@@ -45,8 +60,24 @@ const DeleteAccount = () => {
           withCredentials: true,
         }
       );
-      console.log(res);
+      // console.log(res);
       if (res.data.statusInfo == "success") {
+        dispatch(setAuthUser(null));
+        dispatch(setSelectedPost(null));
+        dispatch(setPosts([]));
+        dispatch(setSuggestedUsers([]));
+        dispatch(setUserProfile(null));
+        dispatch(setSelectedUser(null));
+        dispatch(setOnlineUsers([]));
+        dispatch(setMessages([]));
+        dispatch(setLikeNotification([]));
+        localStorage.removeItem("persist:root");
+        // persistor.purge().then(() => {
+        //   console.log("User logged out and state cleared.");
+        //   // localStorage.removeItem("persist:root");
+        // });
+
+        navigate("/login");
         toast.success(res.data.message, {
           position: "top-center",
         });

@@ -6,7 +6,15 @@ import ApiResponse from "../utils/ApiResponse.js";
 import jwt from "jsonwebtoken";
 import getDataURI from "../utils/datauri.js";
 import { Post } from "../models/post.model.js";
-import { cloudinary } from "../utils/cloudinary.js";
+import {
+  cloudinary,
+  deleteAllPostImages,
+  deleteOnCloudinary,
+} from "../utils/cloudinary.js";
+import { Comment } from "../models/comment.model.js";
+import { Conversation } from "../models/conversation.model.js";
+import { Message } from "../models/message.model.js";
+import mongoose from "mongoose";
 
 // =================== Register ===================
 const register = asyncErrorHandler(async (req, res) => {
@@ -47,6 +55,9 @@ const login = asyncErrorHandler(async (req, res) => {
   }
 
   const user = await User.findOne({ email });
+  if (!user) {
+    throw new ApiError(401, "error", "Incorrect email or password");
+  }
   const isPasswordMatch = await bcrypt.compare(password, user.password);
   if (!user || !isPasswordMatch) {
     throw new ApiError(401, "error", "Incorrect email or password");
@@ -116,14 +127,18 @@ const updateProfile = asyncErrorHandler(async (req, res) => {
   const { name, bio, gender } = req.body;
   const profilePicture = req.file;
   let cloudinaryResponse;
-  if (profilePicture) {
-    const fileUri = getDataURI(profilePicture);
-    // cloudinaryResponse = await uploadOnCloudinary(fileUri);
-    cloudinaryResponse = await cloudinary.uploader.upload(fileUri);
-  }
   const user = await User.findById(userId).select("-password");
   if (!user) {
     throw new ApiError(404, "error", "User not found");
+  }
+  if (profilePicture) {
+    const publicId = user.profilePicture.split("/").pop().split(".")[0]; //get public id from profile image url
+    // ---------------------- Delete profile image from cloudinary --------------
+    const response = await deleteOnCloudinary(publicId);
+
+    const fileUri = getDataURI(profilePicture);
+    // cloudinaryResponse = await uploadOnCloudinary(fileUri);
+    cloudinaryResponse = await cloudinary.uploader.upload(fileUri);
   }
 
   if (bio) user.bio = bio;
@@ -256,9 +271,9 @@ const changePassword = asyncErrorHandler(async (req, res) => {
 
 // =================== Delete User Account ====================
 const deleteProfile = asyncErrorHandler(async (req, res) => {
-  const id = req.id;
+  const userId = req.id;
   const { password } = req.body;
-  const user = await User.findById(id);
+  const user = await User.findById(userId);
   if (!user) {
     throw new ApiError(404, "fail", "user not found");
   }
@@ -268,11 +283,84 @@ const deleteProfile = asyncErrorHandler(async (req, res) => {
     throw new ApiError(404, "fail", "password incorrect");
   }
 
+  const userPosts = await Post.find({ author: userId });
+
+  //  Get the IDs of the user's posts
+  const userPostIds = userPosts.map((post) => post._id);
+
+  //Remove the user's posts from other users' bookmarks
+  await User.updateMany(
+    { bookmarks: { $in: userPostIds } },
+    { $pull: { bookmarks: { $in: userPostIds } } }
+  );
+  for (const post of userPosts) {
+    const publicId = post.image.split("/").pop().split(".")[0]; // Extract public_id
+    // await deleteAllPostImages(publicId);
+    await cloudinary.uploader.destroy(publicId, (error, result) => {
+      if (error) console.error("Error deleting image:", error);
+      else console.log("Deleted from Cloudinary:", result);
+    });
+  }
+  // _________________________ X ________________________________
+
+  // Find all comments by the user
+  const userComments = await Comment.find({ author: userId });
+
+  //  Remove the user's comments from posts
+  const commentIds = userComments.map((comment) => comment._id);
+  await Post.updateMany(
+    { comments: { $in: commentIds } },
+    { $pull: { comments: { $in: commentIds } } }
+  );
+
+  //  Remove the user's comments
+  await Comment.deleteMany({ author: userId });
+
+  // Remove the user's likes from all posts
+  await Post.updateMany({ likes: userId }, { $pull: { likes: userId } });
+
+  // Remove the user's reference from followers and following lists
+  await User.updateMany(
+    { followers: userId },
+    { $pull: { followers: userId } }
+  );
+  await User.updateMany(
+    { following: userId },
+    { $pull: { following: userId } }
+  );
+
+  //Remove the user's posts
+  await Post.deleteMany({ author: userId });
+
+  const publicId = user.profilePicture.split("/").pop().split(".")[0]; //get public id from profile image url
+  // ---------------------- Delete profile image from cloudinary --------------
+  const response = await deleteOnCloudinary(publicId);
+
+  //  Delete the user account
+  const deleteUser = await User.findByIdAndDelete({ _id: userId });
+
+  if (!deleteUser) {
+    throw new ApiError(404, "fail", "user not found");
+  }
+  let DeleteId = deleteUser._id.toString();
+
+  // ----------------- Delete All Data ----------------------
+  const deleteAllData = await Conversation.deleteMany({
+    participants: { $in: [new mongoose.Types.ObjectId(DeleteId)] },
+  });
+
+  await Message.deleteMany({
+    $or: [
+      { senderId: new mongoose.Types.ObjectId(DeleteId) },
+      { receiverId: new mongoose.Types.ObjectId(DeleteId) },
+    ],
+  });
+  // _________________________ X ________________________________
+
   res
     .status(200)
-    .json(
-      new ApiResponse(200, { id, password }, "Delete Account Successfully")
-    );
+    .cookie("token", "", { maxAge: 0 })
+    .json(new ApiResponse(200, null, "Delete Account Successfully"));
 });
 // ========== Export ==========
 export {

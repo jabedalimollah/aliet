@@ -60,6 +60,9 @@ const CreatePost = ({ open, setOpen }) => {
           position: "top-center",
         });
         setOpen(false);
+        setFile("");
+        setCaption("");
+        setImagePreview("");
       }
     } catch (error) {
       // console.log(error);
@@ -75,18 +78,18 @@ const CreatePost = ({ open, setOpen }) => {
       <Dialog open={open}>
         <DialogContent onInteractOutside={() => setOpen(false)}>
           <DialogTitle className="hidden" />
-          <DialogDescription></DialogDescription>
+          <DialogDescription className={"hidden"}></DialogDescription>
           <DialogHeader className={"text-center font-semibold"}>
             Create New Post
           </DialogHeader>
           <div className="flex gap-3 items-center">
             <Avatar>
               <AvatarImage src={user?.profilePicture} alt="image" />
-              <AvatarFallback>JAM</AvatarFallback>
+              <AvatarFallback>{user?.username[0]}</AvatarFallback>
             </Avatar>
             <div>
               <h1 className="font-semibold text-xs">{user?.username}</h1>
-              <span className="text-gray-600 text-xs">Bio here...</span>
+              <span className="text-gray-600 text-xs">{user?.name}</span>
             </div>
           </div>
           <Textarea

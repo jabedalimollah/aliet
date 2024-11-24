@@ -37,7 +37,7 @@ const Login = () => {
           withCredentials: true,
         }
       );
-      // console.log(res.data.data);
+
       if (res?.data.statusInfo == "success") {
         dispatch(setAuthUser(res.data.data));
         toast.success(res.data.message, {
