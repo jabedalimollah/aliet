@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "./ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+  DialogTrigger,
+} from "./ui/dialog";
 import {
   Bookmark,
   Loader2,
@@ -175,7 +181,35 @@ const Post = ({ post }) => {
       });
     }
   };
+  const handleDownload = async () => {
+    if (!post?.image) {
+      console.error("Image URL is invalid");
+      return;
+    }
 
+    try {
+      const response = await fetch(post.image, { mode: "cors" });
+      if (!response.ok) {
+        throw new Error("Failed to fetch image");
+      }
+
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+
+      // Create a temporary anchor and trigger download
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `Aliet-${post.image.split("/").pop()}`;
+      document.body.appendChild(link);
+      link.click();
+
+      // Cleanup
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Download failed:", error);
+    }
+  };
   useEffect(() => {
     setBookmarkChecked(user?.bookmarks?.includes(post?._id));
   }, []);
@@ -191,7 +225,10 @@ const Post = ({ post }) => {
                 src={post?.author?.profilePicture}
                 alt="post_image"
               />
-              <AvatarFallback>CN</AvatarFallback>
+              <AvatarFallback>
+                {" "}
+                {post?.author?.username[0].toUpperCase()}
+              </AvatarFallback>
             </Avatar>
           </NavLink>
 
@@ -212,7 +249,9 @@ const Post = ({ post }) => {
             <MoreHorizontal className="cursor-pointer" />
           </DialogTrigger>
           <DialogContent className="flex flex-col items-center text-sm text-center">
-            <DialogTitle className="hidden" />
+            <DialogTitle className="hidden">
+              <DialogDescription className="hidden" />
+            </DialogTitle>
             {post?.author?._id != user?._id && (
               <Button
                 variant="ghost"
@@ -221,9 +260,32 @@ const Post = ({ post }) => {
                 Unfollow
               </Button>
             )}
-            <Button variant="ghost" className="cursor-pointer w-fit ">
+            {/* <Button variant="ghost" className="cursor-pointer w-fit ">
               Add to favorites
+            </Button> */}
+            <Button
+              variant="ghost"
+              className="cursor-pointer w-fit"
+              onClick={handleDownload}
+            >
+              Save
             </Button>
+            {/* <a
+              href={post?.image}
+              download={`Aliet${post?.image.split("/").pop()}`}
+            >
+              <Button variant="ghost" className="cursor-pointer w-fit ">
+                Save
+              </Button>
+            </a> */}
+            {/* <a
+              href={post?.image}
+              download
+              className="cursor-pointer w-fit font-semibold text-slate-500 hover:bg-slate-100  py-2 px-5 rounded-md"
+            >
+              Save
+            </a> */}
+
             {user &&
               user?._id == post?.author._id &&
               (loading ? (
