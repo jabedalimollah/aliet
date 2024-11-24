@@ -107,7 +107,7 @@ const BottomMenu = () => {
             }
             alt="profile_Picture"
           />
-          <AvatarFallback>{user?.username}</AvatarFallback>
+          <AvatarFallback>{user?.username[0].toUpperCase()}</AvatarFallback>
         </Avatar>
       ),
       text: "Profile",

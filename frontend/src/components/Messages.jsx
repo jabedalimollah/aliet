@@ -21,7 +21,9 @@ const Messages = ({ selectedUser }) => {
         <div className="flex flex-col items-center justify-center">
           <Avatar className="h-20 w-20">
             <AvatarImage src={selectedUser?.profilePicture} alt="profile" />
-            <AvatarFallback>{selectedUser?.username}</AvatarFallback>
+            <AvatarFallback>
+              {selectedUser?.username[0].toUpperCase()}
+            </AvatarFallback>
           </Avatar>
           <span>{selectedUser?.username}</span>
           <NavLink to={`/profile/${selectedUser?._id}`}>

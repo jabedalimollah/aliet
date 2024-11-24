@@ -71,7 +71,9 @@ const SuggestedUsers = () => {
                       src={people?.profilePicture}
                       alt="post_image"
                     />
-                    <AvatarFallback>{people?.username[0]}</AvatarFallback>
+                    <AvatarFallback>
+                      {people?.username[0].toUpperCase()}
+                    </AvatarFallback>
                   </Avatar>
                 </NavLink>
 

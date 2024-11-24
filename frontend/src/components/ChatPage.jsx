@@ -82,7 +82,9 @@ const ChatPage = () => {
                     src={user?.profilePicture}
                     alt="profile_picture"
                   />
-                  <AvatarFallback>{user?.username[0]}</AvatarFallback>
+                  <AvatarFallback>
+                    {user?.username[0].toUpperCase()}
+                  </AvatarFallback>
                 </Avatar>
                 <div className="flex flex-col">
                   <span className="font-medium">{user?.username}</span>
@@ -115,7 +117,9 @@ const ChatPage = () => {
             </button>
             <Avatar>
               <AvatarImage src={selectedUser?.profilePicture} alt="profile" />
-              <AvatarFallback>{selectedUser?.username}</AvatarFallback>
+              <AvatarFallback>
+                {selectedUser?.username[0].toUpperCase()}
+              </AvatarFallback>
             </Avatar>
             <div className="flex flex-col">
               <span>{selectedUser?.username}</span>

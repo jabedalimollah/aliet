@@ -137,7 +137,7 @@ const LeftSidebar = () => {
             alt="profile_Picture"
           />
           <AvatarFallback className={"bg-gray-200"}>
-            {user?.username[0]}
+            {user?.username[0].toUpperCase()}
           </AvatarFallback>
         </Avatar>
       ),

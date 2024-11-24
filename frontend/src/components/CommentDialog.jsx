@@ -115,7 +115,7 @@ const CommentDialog = ({ open, setOpen }) => {
                         alt="post_image"
                       />
                       <AvatarFallback>
-                        {selectedPost?.author?.username[0]}
+                        {selectedPost?.author?.username[0].toUpperCase()}
                       </AvatarFallback>
                     </Avatar>
                   </NavLink>

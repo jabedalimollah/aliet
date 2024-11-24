@@ -13,7 +13,7 @@ const RighSidebar = () => {
         <NavLink to={`/profile/${user?._id}`}>
           <Avatar>
             <AvatarImage src={user?.profilePicture} alt="post_image" />
-            <AvatarFallback>{user?.username[0]}</AvatarFallback>
+            <AvatarFallback>{user?.username[0].toUpperCase()}</AvatarFallback>
           </Avatar>
         </NavLink>
 

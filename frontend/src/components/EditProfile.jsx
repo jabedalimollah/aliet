@@ -107,15 +107,24 @@ const EditProfile = () => {
         <div className="flex items-center justify-between bg-gray-100 rounded-xl p-4">
           <div className="flex items-center gap-3">
             <Avatar>
-              <AvatarImage src={user?.profilePicture} alt="post_image" />
+              <AvatarImage
+                src={
+                  user?.profilePicture?.length
+                    ? "images/default_profile.png"
+                    : user?.profilePicture
+                }
+                alt="profile_image"
+              />
               <AvatarFallback className={"bg-gray-200"}>
-                {user?.username[0]}
+                {user?.username[0].toUpperCase()}
               </AvatarFallback>
             </Avatar>
 
             <div className="w-full">
               <h1 className="font-bold text-sm">{user?.username}</h1>
-              <span className="text-gray-600 ">{user?.name}</span>
+              <span className="text-gray-600 truncate w-16 md:w-fit block">
+                {user?.name}
+              </span>
               {/* <span className="text-gray-600 ">{user?.bio}</span> */}
             </div>
           </div>

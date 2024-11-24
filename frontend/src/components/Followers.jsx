@@ -168,7 +168,9 @@ const Followers = ({ userProfile }) => {
                         src={item?.profilePicture}
                         alt="profile_photo"
                       />
-                      <AvatarFallback>{item?.username[0]}</AvatarFallback>
+                      <AvatarFallback>
+                        {item?.username[0].toUpperCase()}
+                      </AvatarFallback>
                     </Avatar>
                   </section>
                   <div className="flex-1">
