@@ -16,6 +16,7 @@ import { setLikeNotification } from "./redux/notificationSlice";
 import ProtectedRoutes from "./components/ProtectedRoutes";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import About from "./pages/About";
 // import { useSocketContext } from "./context/SocketContext";
 const browserRouter = createBrowserRouter([
   {
@@ -55,6 +56,14 @@ const browserRouter = createBrowserRouter([
         element: (
           <ProtectedRoutes>
             <ChatPage />
+          </ProtectedRoutes>
+        ),
+      },
+      {
+        path: "/about",
+        element: (
+          <ProtectedRoutes>
+            <About />
           </ProtectedRoutes>
         ),
       },

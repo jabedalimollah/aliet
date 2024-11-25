@@ -1,16 +1,18 @@
 import {
   Heart,
   Home,
+  Info,
   LogOut,
   MessageCircle,
   PlusSquare,
   Search,
   TrendingUp,
 } from "lucide-react";
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import React, { useEffect, useState } from "react";
 // import { toast } from "sonner";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -93,6 +95,8 @@ const LeftSidebar = () => {
       setNotificationOpen(!notificationOpen);
       // dispatch(setLikeNotification([]));
       // console.log(likeNotification);
+    } else if (textType === "About") {
+      navigate("/about");
     }
   };
 
@@ -110,8 +114,8 @@ const LeftSidebar = () => {
       text: "Search",
     },
     {
-      icon: <TrendingUp />,
-      text: "Explore",
+      icon: <Info />,
+      text: "About",
     },
     {
       icon: <MessageCircle />,
@@ -156,7 +160,22 @@ const LeftSidebar = () => {
       <div className="px-4 border-r border-gray-300 w-[16%] md:w-fit lg:w-[16%] h-screen hidden md:inline-block">
         {/* <div className="fixed top-0 left-0 z-10 px-4 border-r border-gray-300 w-[16%] h-screen"> */}
         <div className="flex flex-col">
-          <h1 className="my-8 pl-3 font-bold text-xl">Logo</h1>
+          {/* <h1 className="my-3 p-3 font-bold text-xl">Aliet</h1> */}
+          <NavLink
+            to={"/"}
+            className="w-full flex items-center justify-center lg:justify-start"
+          >
+            <img
+              src="images/aliet1.png"
+              alt="Aliet"
+              className="h-10 ml-6 mt-3 hidden lg:inline-block"
+            />
+            <img
+              src="images/aliet2.png"
+              alt="Aliet"
+              className="h-7  my-5 inline-block lg:hidden"
+            />
+          </NavLink>
           <div>
             {sidebarItems.map((item, index) => {
               return (

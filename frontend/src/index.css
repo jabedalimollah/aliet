@@ -27,7 +27,8 @@
     --chart-3: 197 37% 24%;
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
-    --radius: 0.5rem}
+    --radius: 0.5rem;
+  }
   .dark {
     --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;
@@ -52,9 +53,10 @@
     --chart-2: 160 60% 45%;
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%
+    --chart-5: 340 75% 55%;
   }
 }
+
 @layer base {
   * {
     @apply border-border;
@@ -63,3 +65,29 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #8300a3 #f1f1f1;
+}
+
+/* width
+::-webkit-scrollbar {
+  width: 6px;
+} */
+
+/* Track */
+/* ::-webkit-scrollbar-track {
+  background: #f1f1f1;
+} */
+
+/* Handle */
+/* ::-webkit-scrollbar-thumb {
+  background: #151791;
+} */
+
+/* Handle on hover */
+/* ::-webkit-scrollbar-thumb:hover {
+  background: #020044;
+} */

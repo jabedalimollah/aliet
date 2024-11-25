@@ -1,6 +1,7 @@
 import {
   Heart,
   Home,
+  Info,
   LogOut,
   MessageCircle,
   PlusSquare,
@@ -10,7 +11,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import React, { useEffect, useState } from "react";
 // import { toast } from "sonner";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { setAuthUser } from "@/redux/authSlice";
@@ -70,6 +71,8 @@ const Header = () => {
       setNotificationOpen(!notificationOpen);
       // dispatch(setLikeNotification([]));
       // console.log(likeNotification);
+    } else if (textType === "About") {
+      navigate("/about");
     }
   };
 
@@ -82,7 +85,10 @@ const Header = () => {
       icon: <Heart />,
       text: "Notifications",
     },
-
+    {
+      icon: <Info />,
+      text: "About",
+    },
     {
       icon: <LogOut />,
       text: "Logout",
@@ -95,7 +101,14 @@ const Header = () => {
       <div className="px-4  w-full md:w-fit lg:w-[16%] flex md:hidden fixed top-0 left-0 z-10 bg-white border-b ">
         {/* <div className="fixed top-0 left-0 z-10 px-4 border-r border-gray-300 w-[16%] h-screen"> */}
         <div className="flex w-full justify-between items-center">
-          <h1 className=" pl-3 font-bold text-xl">Logo</h1>
+          {/* <h1 className=" pl-3 font-bold text-xl">Logo</h1> */}
+          <NavLink to={"/"} className="w-full flex items-center justify-start">
+            <img
+              src="images/aliet1.png"
+              alt="Aliet"
+              className="h-10 ml-2 mt-3s p-2 inline-block md:hidden "
+            />
+          </NavLink>
           <div className="flex gap-x-0">
             {headerItems.map((item, index) => {
               return (
