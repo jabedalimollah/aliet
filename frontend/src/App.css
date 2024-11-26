@@ -1,0 +1,34 @@
+.button_gradient_purple {
+  background: rgb(211, 31, 255);
+  background: linear-gradient(
+    54deg,
+    rgba(211, 31, 255, 1) 42%,
+    rgba(140, 0, 249, 1) 100%
+  );
+}
+.button_gradient_purple:hover {
+  background: rgb(152, 29, 182);
+  background: linear-gradient(
+    54deg,
+    rgba(152, 29, 182, 1) 42%,
+    rgba(93, 0, 165, 1) 100%
+  );
+}
+
+.bg_gradient {
+  background: rgb(243, 236, 245);
+  background: linear-gradient(
+    54deg,
+    rgba(243, 236, 245, 1) 44%,
+    rgba(226, 189, 255, 1) 44%
+  );
+}
+
+.bg_gradient_signup {
+  background: rgb(226, 189, 255);
+  background: linear-gradient(
+    54deg,
+    rgba(226, 189, 255, 1) 44%,
+    rgba(243, 236, 245, 1) 44%
+  );
+}

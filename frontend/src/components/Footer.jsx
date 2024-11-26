@@ -8,7 +8,7 @@ const Footer = () => {
   const year = new Date();
 
   return (
-    <footer className="w-full bg-purple-100 text-purple-500 flex flex-col justify-center items-center ">
+    <footer className="w-full bg-purple-100 text-purple-500 flex flex-col justify-center items-center shadow-lg shadow-gray-600">
       {/* <div class="ocean">
     <div class="wave">Hello Coders</div>
     <div class="wave">Hello Coders</div>
