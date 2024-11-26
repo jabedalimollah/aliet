@@ -17,6 +17,7 @@ import ProtectedRoutes from "./components/ProtectedRoutes";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import About from "./pages/About";
+import PageNotFound from "./pages/PageNotFound";
 // import { useSocketContext } from "./context/SocketContext";
 const browserRouter = createBrowserRouter([
   {
@@ -76,6 +77,10 @@ const browserRouter = createBrowserRouter([
   {
     path: "/signup",
     element: <Signup />,
+  },
+  {
+    path: "*",
+    element: <PageNotFound />,
   },
 ]);
 
