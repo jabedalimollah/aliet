@@ -18,7 +18,7 @@ import { setAuthUser } from "@/redux/authSlice";
 import { toast } from "react-toastify";
 import ChangePassword from "./ChangePassword";
 import DeleteAccount from "./DeleteAccount";
-
+import default_profile from "../assets/images/default_profile.png";
 const EditProfile = () => {
   const { user } = useSelector((state) => state.auth);
   const [input, setInput] = useState({
@@ -101,101 +101,99 @@ const EditProfile = () => {
     });
   }, []);
   return (
-    <div className="flex max-w-2xl mx-auto md:pl-10s px-10">
-      <section className="flex flex-col gap-6 w-full my-8">
-        <h1 className="font-bold text-xl">Edit Profile</h1>
-        <div className="flex items-center justify-between bg-gray-100 rounded-xl p-4">
-          <div className="flex items-center gap-3">
-            <Avatar>
-              <AvatarImage
-                src={
-                  user?.profilePicture?.length
-                    ? "images/default_profile.png"
-                    : user?.profilePicture
-                }
-                alt="profile_image"
-              />
-              <AvatarFallback className={"bg-gray-200"}>
-                {user?.username[0].toUpperCase()}
-              </AvatarFallback>
-            </Avatar>
+    <div className="w-full bg-purple-50 h-screen lg:h-fit">
+      <div className="flex max-w-2xl mx-auto md:pl-10s px-10 ">
+        <section className="flex flex-col gap-6 w-full my-8">
+          <h1 className="font-bold text-xl">Edit Profile</h1>
+          <div className="flex items-center justify-between bg-purple-100 rounded-xl p-4">
+            <div className="flex items-center gap-3">
+              <Avatar>
+                <AvatarImage
+                  src={user?.profilePicture || default_profile}
+                  alt="profile_image"
+                />
+                <AvatarFallback className={"bg-purple-200"}>
+                  {user?.username[0].toUpperCase()}
+                </AvatarFallback>
+              </Avatar>
 
-            <div className="w-full">
-              <h1 className="font-bold text-sm">{user?.username}</h1>
-              <span className="text-gray-600 truncate w-16 md:w-fit block">
-                {user?.name}
-              </span>
-              {/* <span className="text-gray-600 ">{user?.bio}</span> */}
+              <div className="w-full">
+                <h1 className="font-bold text-sm">{user?.username}</h1>
+                <span className="text-gray-600 truncate w-14 md:w-fit block">
+                  {user?.name}
+                </span>
+                {/* <span className="text-gray-600 ">{user?.bio}</span> */}
+              </div>
             </div>
-          </div>
-          <input
-            ref={imageRef}
-            type="file"
-            onChange={fileChangeHandler}
-            className="hidden"
-          />
-          <Button
-            onClick={() => imageRef?.current.click()}
-            className="bg-[#0095F6] hover:bg-[#438dbe]  h-8"
-          >
-            Change photo
-          </Button>
-        </div>
-        <div>
-          <h1 className="font-bold text-xl mb-2">Name</h1>
-          <input
-            type="text"
-            value={input.name}
-            name="name"
-            onChange={(e) => setInput({ ...input, name: e.target.value })}
-            className="w-full p-2 outline-none border rounded-md"
-          />
-        </div>
-        <div>
-          <h1 className="font-bold text-xl mb-2">Bio</h1>
-          <Textarea
-            value={input.bio}
-            name="bio"
-            onChange={(e) => setInput({ ...input, bio: e.target.value })}
-            className="focus-visible:ring-transparent"
-          />
-        </div>
-        <div>
-          <h1 className="font-bold mb-2">Gender</h1>
-
-          <Select value={input?.gender} onValueChange={selectChangeHandler}>
-            <SelectTrigger className="w-full">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectItem value="male">Male</SelectItem>
-                <SelectItem value="female">Female</SelectItem>
-              </SelectGroup>
-            </SelectContent>
-          </Select>
-        </div>
-        <div className="flex justify-end">
-          {loading ? (
-            <Button className="w-fit bg-[#0095F6] hover:bg-[#438dbe] ">
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please wait...
-            </Button>
-          ) : (
+            <input
+              ref={imageRef}
+              type="file"
+              onChange={fileChangeHandler}
+              className="hidden"
+            />
             <Button
-              onClick={editProfileHandler}
-              className="w-fit bg-[#0095F6] hover:bg-[#438dbe] "
+              onClick={() => imageRef?.current.click()}
+              className="bg-[#0095F6]s bg-purple-500 hover:bg-purple-700 shover:bg-[#438dbe]s  h-8"
             >
-              Submit
+              Change photo
             </Button>
-          )}
-        </div>
-        <div>
-          <ChangePassword />
-        </div>
-        <div>
-          <DeleteAccount />
-        </div>
-      </section>
+          </div>
+          <div>
+            <h1 className="font-bold text-xl mb-2">Name</h1>
+            <input
+              type="text"
+              value={input.name}
+              name="name"
+              onChange={(e) => setInput({ ...input, name: e.target.value })}
+              className="w-full p-2 outline-none border rounded-md"
+            />
+          </div>
+          <div>
+            <h1 className="font-bold text-xl mb-2">Bio</h1>
+            <Textarea
+              value={input.bio}
+              name="bio"
+              onChange={(e) => setInput({ ...input, bio: e.target.value })}
+              className="focus-visible:ring-transparent"
+            />
+          </div>
+          <div>
+            <h1 className="font-bold mb-2">Gender</h1>
+
+            <Select value={input?.gender} onValueChange={selectChangeHandler}>
+              <SelectTrigger className="w-full">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectItem value="male">Male</SelectItem>
+                  <SelectItem value="female">Female</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="flex justify-end">
+            {loading ? (
+              <Button className="w-fit bg-[#0095F6] hover:bg-[#438dbe] ">
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please wait...
+              </Button>
+            ) : (
+              <Button
+                onClick={editProfileHandler}
+                className="w-fit bg-[#0095F6]s shover:bg-[#438dbe] bg-purple-500 hover:bg-purple-700 "
+              >
+                Save
+              </Button>
+            )}
+          </div>
+          <div>
+            <ChangePassword />
+          </div>
+          <div>
+            <DeleteAccount />
+          </div>
+        </section>
+      </div>
     </div>
   );
 };

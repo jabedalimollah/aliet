@@ -83,7 +83,7 @@ const SuggestedUsers = () => {
                       {people?.username}
                     </NavLink>
                   </h1>
-                  <span className="text-gray-600 text-sm ">
+                  <span className="text-gray-600 text-sm w-20 truncate block">
                     {/* {people?.bio || "Bio here..."} */}
                     {people?.name}
                   </span>

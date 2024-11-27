@@ -2,6 +2,7 @@ import {
   Heart,
   Home,
   Info,
+  Loader2,
   LogOut,
   MessageCircle,
   PlusSquare,
@@ -24,6 +25,16 @@ import CreatePost from "./CreatePost";
 import { setPosts, setSelectedPost } from "@/redux/postSlice";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Button } from "./ui/button";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { setLikeNotification } from "@/redux/notificationSlice";
 import SearchBox from "./SearchBox";
 import { toast } from "react-toastify";
@@ -33,17 +44,21 @@ import {
   setSelectedUser,
 } from "@/redux/chatSlice";
 // import { persistor } from "@/redux/store";
-
+import aliet1 from "@/assets/images/aliet1.png";
+import aliet2 from "@/assets/images/aliet2.png";
+import default_profile from "@/assets/images/default_profile.png";
 const LeftSidebar = () => {
   const [open, setOpen] = useState(false);
   const { user } = useSelector((state) => state.auth);
   const { likeNotification } = useSelector((state) => state.notification);
   const [notificationOpen, setNotificationOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const logoutHandler = async () => {
     try {
+      setLoading(true);
       const res = await axios.get(
         `${import.meta.env.VITE_APP_API_KEY}/user/logout`,
         {
@@ -77,12 +92,14 @@ const LeftSidebar = () => {
         position: "top-center",
       });
       //   console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
   const sidebarHandler = (textType) => {
     if (textType === "Logout") {
-      logoutHandler();
+      // logoutHandler();
     } else if (textType === "Create") {
       setOpen(true);
     } else if (textType === "Profile") {
@@ -136,7 +153,7 @@ const LeftSidebar = () => {
             src={
               user?.profilePicture?.length != 0
                 ? user?.profilePicture
-                : "images/default_profile.png"
+                : default_profile
             }
             alt="profile_Picture"
           />
@@ -166,12 +183,14 @@ const LeftSidebar = () => {
             className="w-full flex items-center justify-center lg:justify-start"
           >
             <img
-              src="images/aliet1.png"
+              src={aliet1}
+              // src="images/aliet1.png"
               alt="Aliet"
               className="h-10 ml-6 mt-3 hidden lg:inline-block"
             />
             <img
-              src="images/aliet2.png"
+              src={aliet2}
+              // src="images/aliet2.png"
               alt="Aliet"
               className="h-7  my-5 inline-block lg:hidden"
             />
@@ -182,10 +201,10 @@ const LeftSidebar = () => {
                 <div
                   onClick={() => sidebarHandler(item.text)}
                   key={index}
-                  className="flex items-center justify-center lg:justify-start gap-4 relative hover:bg-gray-100 cursor-pointer rounded-lg p-3 my-3"
+                  className={`flex items-center justify-center lg:justify-start gap-4 relative hover:bg-gray-100 cursor-pointer rounded-lg p-3 my-3`}
                 >
-                  {item.text != "Search" && item.icon}
-                  {item.text != "Search" && (
+                  {item.text != "Search" && item.text != "Logout" && item.icon}
+                  {item.text != "Search" && item.text != "Logout" && (
                     <span className="inline-block md:hidden lg:inline-block">
                       {" "}
                       {item.text}
@@ -306,6 +325,55 @@ const LeftSidebar = () => {
                       </div>
                       <SearchBox />
                     </div>
+                  )}
+                  {item.text === "Logout" && (
+                    <Dialog>
+                      <DialogTrigger asChild>
+                        <div className="w-full m-0 flex gap-4">
+                          {item.icon}
+                          <span className="inline-block md:hidden lg:inline-block">
+                            {item.text}
+                          </span>{" "}
+                        </div>
+                      </DialogTrigger>
+                      <DialogContent className="sm:max-w-[425px]">
+                        <DialogHeader>
+                          <DialogTitle>Log out</DialogTitle>
+                          <DialogDescription>
+                            Are you sure you want to log out ?
+                          </DialogDescription>
+                        </DialogHeader>
+                        <div className="grid gap-4 py-4">
+                          <div className="grid grid-cols-4 items-center gap-4"></div>
+                          <div className="grid grid-cols-4 items-center gap-4"></div>
+                        </div>
+                        <DialogFooter className={"flex gap-x-4"}>
+                          {loading ? (
+                            <Button className="flex">
+                              <Loader2 className=" h-4  animate-spin" /> Please
+                              wait...
+                            </Button>
+                          ) : (
+                            <Button
+                              type="submit"
+                              onClick={() => logoutHandler()}
+                              className="bg-red-700 px-6 py-2"
+                            >
+                              Yes
+                            </Button>
+                          )}{" "}
+                          <DialogClose asChild>
+                            <Button
+                              type="button"
+                              variant="secondary"
+                              className="px-6 py-2 hover:bg-gray-700 hover:text-white"
+                            >
+                              No
+                            </Button>
+                          </DialogClose>
+                        </DialogFooter>
+                      </DialogContent>
+                    </Dialog>
                   )}
                 </div>
               );

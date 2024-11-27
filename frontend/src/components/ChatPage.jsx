@@ -12,6 +12,7 @@ import { MdArrowBack } from "react-icons/md";
 import { NavLink } from "react-router-dom";
 import { toast } from "react-toastify";
 import useGetAuthUserProfile from "@/hooks/useGetAuthUserProfile";
+import { IoChatboxEllipses } from "react-icons/io5";
 
 const ChatPage = () => {
   const [message, setMessage] = useState("");
@@ -19,6 +20,7 @@ const ChatPage = () => {
   const { selectedUser, onlineUsers, messages } = useSelector(
     (state) => state.chat
   );
+
   // console.log(selectedUser);
   useGetAuthUserProfile();
   const dispatch = useDispatch();
@@ -51,21 +53,25 @@ const ChatPage = () => {
   // console.log(selectedUser);
   useEffect(() => {
     return () => {
-      // dispatch(setSelectedUser(null));
+      dispatch(setSelectedUser(null));
     };
   }, []);
   return (
-    <div className="flex sml-[16%] h-screen fixed md:relative top-0 left-0 w-full md:w-auto z-20">
+    <div className="flex sml-[16%] h-screen fixed md:relative top-0 left-0 w-full md:w-auto z-20 ">
       <section
-        className={`w-full md:w-1/4 my-8 ${
+        className={`w-full md:w-1/4 pt-1 pb-8 ${
           selectedUser ? "hidden" : "inline-block"
-        } md:inline-block fixed md:relative top-0 left-0 h-screen md:h-auto z-20 bg-white`}
+        } md:inline-block fixed md:relative top-0 left-0 h-screen md:h-auto z-20 bg-purple-50`}
       >
-        <h1 className="font-bold mb-4 px-3 text-xl flex items-center gap-1 fixed md:relative top-0 left-0 z-10 bg-white border-b py-3 w-full">
+        <h1 className="font-bold mb-4 px-3 text-xl flex items-center gap-1 fixed md:relative top-0 left-0 z-10 bg-whites border-b py-3 w-full">
           <NavLink to={`/`} className={"inline-block md:hidden"}>
             <MdArrowBack />
           </NavLink>
-          {user?.username}
+          {/* {user?.username} */}
+          <span className="text-purple-700 flex items-end gap-x-2">
+            Chat
+            <IoChatboxEllipses />
+          </span>
         </h1>
         {/* <hr className="mb-4 border-b " /> */}
         <div className={`w-full overflow-y-auto h-[80vh] mt-10 `}>
@@ -75,14 +81,14 @@ const ChatPage = () => {
               <div
                 key={user?._id}
                 onClick={() => dispatch(setSelectedUser(user))}
-                className="flex gap-3 items-center p-3 hover:bg-gray-100 cursor-pointer"
+                className="flex gap-3 items-center p-3 hover:bg-purple-100 cursor-pointer"
               >
-                <Avatar className="w-14 h-14">
+                <Avatar className="w-14 h-14 ">
                   <AvatarImage
                     src={user?.profilePicture}
                     alt="profile_picture"
                   />
-                  <AvatarFallback>
+                  <AvatarFallback className="bg-purple-200 text-purple-600">
                     {user?.username[0].toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
@@ -115,14 +121,29 @@ const ChatPage = () => {
             >
               <MdArrowBack />
             </button>
-            <Avatar>
-              <AvatarImage src={selectedUser?.profilePicture} alt="profile" />
-              <AvatarFallback>
-                {selectedUser?.username[0].toUpperCase()}
-              </AvatarFallback>
-            </Avatar>
+            <NavLink to={`/profile/${selectedUser?._id}`}>
+              <Avatar>
+                <AvatarImage src={selectedUser?.profilePicture} alt="profile" />
+                <AvatarFallback>
+                  {selectedUser?.username[0].toUpperCase()}
+                </AvatarFallback>
+              </Avatar>
+            </NavLink>
+
             <div className="flex flex-col">
-              <span>{selectedUser?.username}</span>
+              <NavLink to={`/profile/${selectedUser?._id}`}>
+                <span>{selectedUser?.username}</span>
+              </NavLink>
+              <span
+                className={`text-xs font-bold ${
+                  onlineUsers.includes(selectedUser?._id)
+                    ? "text-green-600"
+                    : "text-red-600"
+                }`}
+              >
+                {onlineUsers.includes(selectedUser?._id) ? "Online" : "Offline"}
+                {/* Online */}
+              </span>
             </div>
           </div>
           {/* message... */}

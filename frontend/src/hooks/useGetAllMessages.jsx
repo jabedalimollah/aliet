@@ -1,4 +1,5 @@
 import { setMessages } from "@/redux/chatSlice";
+import { setMessageLoading } from "@/redux/loadingSlice";
 import axios from "axios";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,6 +10,7 @@ const useGetAllMessages = () => {
 
   useEffect(() => {
     const fetchAllMessages = async () => {
+      dispatch(setMessageLoading(true));
       try {
         const res = await axios.get(
           `${import.meta.env.VITE_APP_API_KEY}/message/all/${
@@ -21,9 +23,12 @@ const useGetAllMessages = () => {
         if (res.data.statusInfo == "success") {
           // console.log(res.data);
           dispatch(setMessages(res.data.data));
+          dispatch(setMessageLoading(false));
         }
       } catch (error) {
         console.log(error);
+      } finally {
+        dispatch(setMessageLoading(false));
       }
     };
     fetchAllMessages();

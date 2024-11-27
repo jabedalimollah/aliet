@@ -216,7 +216,7 @@ const Post = ({ post }) => {
   // const bookmarkChecked = user?.bookmarks.includes(post?._id);
   // console.log(user);
   return (
-    <div className="my-8 w-full max-w-sm mx-auto">
+    <div className="my-8 w-full max-w-sm mx-auto bg-white p-6 rounded-md shadow-md">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <NavLink to={`profile/${post?.author?._id}`}>
@@ -298,7 +298,7 @@ const Post = ({ post }) => {
                   variant="ghost"
                   onClick={deletePostHandler}
                   // className="cursor-pointer w-fit text-[#ED4956] font-bold"
-                  className="cursor-pointer w-fit "
+                  className="cursor-pointer w-fit text-red-500"
                 >
                   Delete
                 </Button>

@@ -106,10 +106,10 @@ const Followers = ({ userProfile }) => {
             variant="outline"
             onClick={handleOpen}
             className={
-              "border-none outline-none flex md:inline-block flex-col  justify-center items-center text-base m-0 p-0 hover:bg-transparent"
+              "border-none outline-none flex md:inline-block flex-col  justify-center items-center text-base m-0 p-0 bg-transparent hover:bg-transparent "
             }
           >
-            <p className="flex md:inline-block flex-col  justify-center items-center text-slate-600">
+            <p className="flex md:inline-block flex-col  justify-center items-center text-slate-600 hover:text-purple-500">
               <span className="font-semibold text-black">
                 {userProfile?.followers?.length}
               </span>{" "}

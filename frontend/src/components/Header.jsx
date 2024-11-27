@@ -2,6 +2,7 @@ import {
   Heart,
   Home,
   Info,
+  Loader2,
   LogOut,
   MessageCircle,
   PlusSquare,
@@ -19,6 +20,16 @@ import CreatePost from "./CreatePost";
 import { setPosts, setSelectedPost } from "@/redux/postSlice";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Button } from "./ui/button";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { setLikeNotification } from "@/redux/notificationSlice";
 import { toast } from "react-toastify";
 
@@ -27,11 +38,13 @@ const Header = () => {
   const { user } = useSelector((state) => state.auth);
   const { likeNotification } = useSelector((state) => state.notification);
   const [notificationOpen, setNotificationOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const logoutHandler = async () => {
     try {
+      setLoading(true);
       const res = await axios.get(
         `${import.meta.env.VITE_APP_API_KEY}/user/logout`,
         {
@@ -53,12 +66,14 @@ const Header = () => {
         position: "top-center",
       });
       //   console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
   const sidebarHandler = (textType) => {
     if (textType === "Logout") {
-      logoutHandler();
+      // logoutHandler();
     } else if (textType === "Create") {
       setOpen(true);
     } else if (textType === "Profile") {
@@ -117,7 +132,8 @@ const Header = () => {
                   key={index}
                   className="p-3 flex items-center justify-center lg:justify-start gap-4 relative hover:bg-gray-100 cursor-pointer rounded-lg"
                 >
-                  {item.icon}
+                  {/* {item.icon} */}
+                  {item.text != "Logout" && item.icon}
 
                   <>
                     {item.text === "Notifications" &&
@@ -170,6 +186,58 @@ const Header = () => {
                         </Popover>
                       )}
                   </>
+                  {item.text === "Logout" && (
+                    <Dialog className="">
+                      <DialogTrigger asChild>
+                        <div className="w-full m-0 flex gap-4">
+                          {item.icon}
+                          {/* <span className="inline-block md:hidden lg:inline-block">
+                            {item.text}
+                          </span> */}
+                        </div>
+                      </DialogTrigger>
+                      <DialogContent className="sm:max-w-[425px]s w-[90%] rounded-lg ">
+                        <DialogHeader>
+                          <DialogTitle>Log out</DialogTitle>
+                          <DialogDescription>
+                            Are you sure you want to log out ?
+                          </DialogDescription>
+                        </DialogHeader>
+                        <div className="grid gap-4 py-4">
+                          <div className="grid grid-cols-4 items-center gap-4"></div>
+                          <div className="grid grid-cols-4 items-center gap-4"></div>
+                        </div>
+                        <DialogFooter
+                          className={"w-full flex flex-row justify-between"}
+                        >
+                          {loading ? (
+                            <Button className="flex">
+                              {" "}
+                              <Loader2 className=" h-4 animate-spin" /> Please
+                              wait...
+                            </Button>
+                          ) : (
+                            <Button
+                              type="submit"
+                              onClick={() => logoutHandler()}
+                              className="bg-red-700 px-6"
+                            >
+                              Yes
+                            </Button>
+                          )}
+                          <DialogClose asChild>
+                            <Button
+                              type="button"
+                              variant="secondary"
+                              className="px-6"
+                            >
+                              No
+                            </Button>
+                          </DialogClose>
+                        </DialogFooter>
+                      </DialogContent>
+                    </Dialog>
+                  )}
                 </div>
               );
             })}

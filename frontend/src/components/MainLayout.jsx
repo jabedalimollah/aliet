@@ -8,7 +8,7 @@ const MainLayout = () => {
     <div className="flex">
       <LeftSidebar />
       <BottomMenu />
-      <div className="h-screen overflow-y-auto flex-1 px-0 lg:px-10s pb-10 md:pb-0">
+      <div className="h-screen overflow-y-auto flex-1 px-0 lg:px-10s pb-12 md:pb-0">
         <Outlet />
       </div>
     </div>
