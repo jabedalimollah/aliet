@@ -89,7 +89,7 @@ const login = asyncErrorHandler(async (req, res) => {
       sameSite: "strict",
       maxAge: 30 * 24 * 60 * 60 * 1000,
     })
-    .json(new ApiResponse(200, userData, "User login successfully"));
+    .json(new ApiResponse(200, userData, "User login successfully", token));
 });
 
 // ============= Logout ==============
