@@ -30,6 +30,7 @@ import {
   setSelectedUser,
 } from "@/redux/chatSlice";
 import { setLikeNotification } from "@/redux/notificationSlice";
+const token = localStorage.getItem("aliet");
 const DeleteAccount = () => {
   const [password, setPassword] = useState("");
   const [open, setOpen] = useState(false);
@@ -56,6 +57,7 @@ const DeleteAccount = () => {
           },
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
           withCredentials: true,
         }

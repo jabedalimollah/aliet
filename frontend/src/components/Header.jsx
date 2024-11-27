@@ -32,6 +32,7 @@ import {
 } from "@/components/ui/dialog";
 import { setLikeNotification } from "@/redux/notificationSlice";
 import { toast } from "react-toastify";
+const token = localStorage.getItem("aliet");
 
 const Header = () => {
   const [open, setOpen] = useState(false);
@@ -48,6 +49,7 @@ const Header = () => {
       const res = await axios.get(
         `${import.meta.env.VITE_APP_API_KEY}/user/logout`,
         {
+          headers: { Authorization: `Bearer ${token}` },
           withCredentials: true,
         }
       );

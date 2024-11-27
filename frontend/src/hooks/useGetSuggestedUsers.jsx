@@ -3,7 +3,7 @@ import { setSuggestedUsersLoading } from "@/redux/loadingSlice";
 import axios from "axios";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-
+const token = localStorage.getItem("aliet");
 const useGetSuggestedUsers = () => {
   const dispatch = useDispatch();
   useEffect(() => {
@@ -13,6 +13,7 @@ const useGetSuggestedUsers = () => {
         const res = await axios.get(
           `${import.meta.env.VITE_APP_API_KEY}/user/suggested`,
           {
+            headers: { Authorization: `Bearer ${token}` },
             withCredentials: true,
           }
         );

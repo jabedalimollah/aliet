@@ -19,6 +19,7 @@ import { toast } from "react-toastify";
 import ChangePassword from "./ChangePassword";
 import DeleteAccount from "./DeleteAccount";
 import default_profile from "../assets/images/default_profile.png";
+const token = localStorage.getItem("aliet");
 const EditProfile = () => {
   const { user } = useSelector((state) => state.auth);
   const [input, setInput] = useState({
@@ -28,7 +29,7 @@ const EditProfile = () => {
     name: "",
     profilePicture: "",
     bio: "",
-    gender: "",
+    gender: null,
   });
   const [loading, setLoading] = useState(false);
 
@@ -50,7 +51,10 @@ const EditProfile = () => {
     const formData = new FormData();
     formData.append("name", input.name);
     formData.append("bio", input.bio);
-    formData.append("gender", input.gender);
+    if (!input.gender) {
+      formData.append("gender", input.gender);
+    }
+
     if (input.profilePicture) {
       formData.append("profilePicture", input.profilePicture);
     }
@@ -62,6 +66,7 @@ const EditProfile = () => {
         {
           headers: {
             "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`,
           },
           withCredentials: true,
         }

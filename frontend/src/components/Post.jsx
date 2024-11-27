@@ -30,6 +30,7 @@ import { Badge } from "./ui/badge";
 import { setAuthUser } from "@/redux/authSlice";
 import { NavLink } from "react-router-dom";
 import { toast } from "react-toastify";
+const token = localStorage.getItem("aliet");
 const Post = ({ post }) => {
   const [text, setText] = useState("");
   const [open, setOpen] = useState(false);
@@ -57,6 +58,7 @@ const Post = ({ post }) => {
       const res = await axios.get(
         `${import.meta.env.VITE_APP_API_KEY}/post/${post?._id}/${action}`,
         {
+          headers: { Authorization: `Bearer ${token}` },
           withCredentials: true,
         }
       );
@@ -98,6 +100,7 @@ const Post = ({ post }) => {
           // headers: {
           //   "Content-Type": "application/json",
           // },
+          headers: { Authorization: `Bearer ${token}` },
           withCredentials: true,
         }
       );
@@ -133,6 +136,7 @@ const Post = ({ post }) => {
       const res = await axios.delete(
         `${import.meta.env.VITE_APP_API_KEY}/post/delete/${post?._id}`,
         {
+          headers: { Authorization: `Bearer ${token}` },
           withCredentials: true,
         }
       );
@@ -161,6 +165,7 @@ const Post = ({ post }) => {
         `${import.meta.env.VITE_APP_API_KEY}/post/${post?._id}/bookmark`,
 
         {
+          headers: { Authorization: `Bearer ${token}` },
           withCredentials: true,
         }
       );

@@ -17,7 +17,7 @@ import { setPosts } from "@/redux/postSlice";
 // import { toast } from "sonner";
 import { MdArrowBackIos } from "react-icons/md";
 import { toast } from "react-toastify";
-
+const token = localStorage.getItem("aliet");
 const CommentDialog = ({ open, setOpen }) => {
   const [comment, setComment] = useState("");
   const { posts, selectedPost } = useSelector((state) => state.post);
@@ -43,6 +43,7 @@ const CommentDialog = ({ open, setOpen }) => {
           // headers: {
           //   "Content-Type": "application/json",
           // },
+          headers: { Authorization: `Bearer ${token}` },
           withCredentials: true,
         }
       );

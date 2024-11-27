@@ -3,7 +3,7 @@ import { setMessageLoading } from "@/redux/loadingSlice";
 import axios from "axios";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
+const token = localStorage.getItem("aliet");
 const useGetAllMessages = () => {
   const { selectedUser } = useSelector((state) => state.chat);
   const dispatch = useDispatch();
@@ -17,6 +17,7 @@ const useGetAllMessages = () => {
             selectedUser?._id
           }`,
           {
+            headers: { Authorization: `Bearer ${token}` },
             withCredentials: true,
           }
         );

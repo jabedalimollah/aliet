@@ -2,7 +2,7 @@ import { setAuthUser, setUserProfile } from "@/redux/authSlice";
 import axios from "axios";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
+const token = localStorage.getItem("aliet");
 const useGetAuthUserProfile = () => {
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -12,6 +12,7 @@ const useGetAuthUserProfile = () => {
         const res = await axios.get(
           `${import.meta.env.VITE_APP_API_KEY}/user/getprofile`,
           {
+            headers: { Authorization: `Bearer ${token}` },
             withCredentials: true,
           }
         );

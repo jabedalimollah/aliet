@@ -4,7 +4,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { setMessages, setSelectedUser } from "@/redux/chatSlice";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
-import { MessageCircle, MessageCircleCode } from "lucide-react";
+import { Loader2, MessageCircle, MessageCircleCode } from "lucide-react";
 import Messages from "./Messages";
 // import { toast } from "sonner";
 import axios from "axios";
@@ -13,26 +13,28 @@ import { NavLink } from "react-router-dom";
 import { toast } from "react-toastify";
 import useGetAuthUserProfile from "@/hooks/useGetAuthUserProfile";
 import { IoChatboxEllipses } from "react-icons/io5";
-
+const token = localStorage.getItem("aliet");
 const ChatPage = () => {
   const [message, setMessage] = useState("");
   const { user, suggestedUsers } = useSelector((state) => state.auth);
   const { selectedUser, onlineUsers, messages } = useSelector(
     (state) => state.chat
   );
-
+  const [loading, setLoading] = useState(false);
   // console.log(selectedUser);
   useGetAuthUserProfile();
   const dispatch = useDispatch();
   //   console.log(messages);
   const sendMessageHandler = async (receiverId) => {
     try {
+      setLoading(true);
       const res = await axios.post(
         `${import.meta.env.VITE_APP_API_KEY}/message/send/${receiverId}`,
         { message },
         {
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
           withCredentials: true,
         }
@@ -48,6 +50,8 @@ const ChatPage = () => {
       toast.error(error?.response?.data.message, {
         position: "top-center",
       });
+    } finally {
+      setLoading(false);
     }
   };
   // console.log(selectedUser);
@@ -156,9 +160,15 @@ const ChatPage = () => {
               className="flex-1 mr-2 focus-visible:ring-transparent"
               placeholder="Messages..."
             />
-            <Button onClick={() => sendMessageHandler(selectedUser?._id)}>
-              Send
-            </Button>
+            {loading ? (
+              <Button>
+                <Loader2 className="h-4  animate-spin" />
+              </Button>
+            ) : (
+              <Button onClick={() => sendMessageHandler(selectedUser?._id)}>
+                Send
+              </Button>
+            )}
           </div>
         </section>
       ) : (

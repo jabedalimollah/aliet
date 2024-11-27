@@ -5,6 +5,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { setAuthUser, setSuggestedUsers } from "@/redux/authSlice";
 import axios from "axios";
 import { toast } from "react-toastify";
+const token = localStorage.getItem("aliet");
 // import { toast } from "sonner";
 
 const SuggestedUsers = () => {
@@ -22,6 +23,7 @@ const SuggestedUsers = () => {
             // headers: {
             //   "Content-Type": "application/json",
             // },
+            headers: { Authorization: `Bearer ${token}` },
             withCredentials: true,
           }
         );

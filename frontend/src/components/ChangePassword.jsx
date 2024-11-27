@@ -16,6 +16,7 @@ import { Button } from "./ui/button";
 import { toast } from "react-toastify";
 import { Loader2 } from "lucide-react";
 import axios from "axios";
+const token = localStorage.getItem("aliet");
 const ChangePassword = () => {
   const [open, setOpen] = useState(false);
   const [data, setData] = useState({
@@ -50,6 +51,7 @@ const ChangePassword = () => {
           {
             headers: {
               "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
             },
             withCredentials: true,
           }

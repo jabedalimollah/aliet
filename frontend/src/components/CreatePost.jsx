@@ -16,7 +16,7 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { setPosts } from "@/redux/postSlice";
 import { toast } from "react-toastify";
-
+const token = localStorage.getItem("aliet");
 const CreatePost = ({ open, setOpen }) => {
   const [file, setFile] = useState("");
   const [caption, setCaption] = useState("");
@@ -48,7 +48,8 @@ const CreatePost = ({ open, setOpen }) => {
         formData,
         {
           headers: {
-            "Content-Type": "multipart/form-data",
+            // "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`,
           },
           withCredentials: true,
         }

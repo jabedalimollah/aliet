@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setAuthUser, setUserProfile } from "@/redux/authSlice";
 import { Loader2 } from "lucide-react";
 import { toast } from "react-toastify";
+const token = localStorage.getItem("aliet");
 const Following = ({ userProfile }) => {
   const [close, setClose] = useState(false);
   const [following, setFollowing] = useState([]);
@@ -40,6 +41,7 @@ const Following = ({ userProfile }) => {
           // headers: {
           //   "Content-Type": "application/json",
           // },
+          headers: { Authorization: `Bearer ${token}` },
           withCredentials: true,
         }
       );
@@ -75,6 +77,7 @@ const Following = ({ userProfile }) => {
           // headers: {
           //   "Content-Type": "application/json",
           // },
+          headers: { Authorization: `Bearer ${token}` },
           withCredentials: true,
         }
       );

@@ -47,6 +47,7 @@ import {
 import aliet1 from "@/assets/images/aliet1.png";
 import aliet2 from "@/assets/images/aliet2.png";
 import default_profile from "@/assets/images/default_profile.png";
+const token = localStorage.getItem("aliet");
 const LeftSidebar = () => {
   const [open, setOpen] = useState(false);
   const { user } = useSelector((state) => state.auth);
@@ -62,6 +63,7 @@ const LeftSidebar = () => {
       const res = await axios.get(
         `${import.meta.env.VITE_APP_API_KEY}/user/logout`,
         {
+          headers: { Authorization: `Bearer ${token}` },
           withCredentials: true,
         }
       );

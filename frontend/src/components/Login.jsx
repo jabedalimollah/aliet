@@ -41,6 +41,8 @@ const Login = () => {
 
       if (res?.data.statusInfo == "success") {
         dispatch(setAuthUser(res.data.data));
+        console.log(res?.data.token);
+        localStorage.setItem("aliet", res?.data.token);
         toast.success(res.data.message, {
           position: "top-center",
         });

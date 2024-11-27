@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
 import { FaUserEdit } from "react-icons/fa";
-import { AtSign, Heart, MessageCircle } from "lucide-react";
+import { AtSign, Heart, Loader2, MessageCircle } from "lucide-react";
 import axios from "axios";
 // import { toast } from "sonner";
 import { setAuthUser, setUserProfile } from "@/redux/authSlice";
@@ -17,10 +17,12 @@ import { toast } from "react-toastify";
 import useGetAuthUserProfile from "@/hooks/useGetAuthUserProfile";
 import ProfileSkeleton from "./ProfileSkeleton";
 import default_profile from "../assets/images/default_profile.png";
+const token = localStorage.getItem("aliet");
 const Profile = () => {
   const { user, userProfile } = useSelector((state) => state.auth);
   const { profileLoading } = useSelector((state) => state.loading);
   const [activeTab, setActiveTab] = useState("posts");
+  const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
   const params = useParams();
@@ -41,6 +43,7 @@ const Profile = () => {
   const handleFollowAndUnfollow = async () => {
     try {
       if (!isLoggedInUserProfile) {
+        setLoading(true);
         // console.log(userProfile?._id);
         const res = await axios.get(
           `${import.meta.env.VITE_APP_API_KEY}/user/followorunfollow/${
@@ -50,6 +53,7 @@ const Profile = () => {
             // headers: {
             //   "Content-Type": "application/json",
             // },
+            headers: { Authorization: `Bearer ${token}` },
             withCredentials: true,
           }
         );
@@ -67,6 +71,8 @@ const Profile = () => {
       toast.error(error.response.data.message, {
         position: "top-center",
       });
+    } finally {
+      setLoading(false);
     }
   };
   const messageHandler = () => {
@@ -134,13 +140,20 @@ const Profile = () => {
                       <>
                         {user?.following?.includes(userProfile?._id) ? (
                           <>
-                            <Button
-                              onClick={handleFollowAndUnfollow}
-                              variant={"secondary"}
-                              className=" h-8"
-                            >
-                              Unfollow
-                            </Button>
+                            {loading ? (
+                              <Button className="bg-[#0095F6]">
+                                <Loader2 className="h-4  animate-spin" /> Please
+                                wait...
+                              </Button>
+                            ) : (
+                              <Button
+                                onClick={handleFollowAndUnfollow}
+                                variant={"secondary"}
+                                className=" h-8"
+                              >
+                                Unfollow
+                              </Button>
+                            )}
                             {/* <NavLink to={"/chat"}> */}
                             <Button
                               variant={"secondary"}
@@ -151,6 +164,11 @@ const Profile = () => {
                             </Button>
                             {/* </NavLink> */}
                           </>
+                        ) : loading ? (
+                          <Button className="bg-[#0095F6]">
+                            <Loader2 className="h-4  animate-spin" /> Please
+                            wait...
+                          </Button>
                         ) : (
                           <Button
                             onClick={handleFollowAndUnfollow}
