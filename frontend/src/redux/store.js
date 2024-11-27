@@ -4,6 +4,7 @@ import postReducer from "./postSlice";
 import chatReducer from "./chatSlice";
 import socketReducer from "./socketSlice";
 import notificationReducer from "./notificationSlice";
+import loadingReducer from "./loadingSlice";
 import {
   persistReducer,
   persistStore,
@@ -28,6 +29,7 @@ const rootReducer = combineReducers({
   chat: chatReducer,
   socket: socketReducer,
   notification: notificationReducer,
+  loading: loadingReducer,
 });
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 export const store = configureStore({
