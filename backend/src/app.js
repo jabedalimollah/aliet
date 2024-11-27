@@ -10,7 +10,19 @@ import { app, server } from "./socket/socket.js";
 app.use(express.json());
 app.use(cookieParser());
 const corsOptions = {
-  origin: process.env.CORS_ORIGIN,
+  // origin: process.env.CORS_ORIGIN,
+  origin: (origin, callback) => {
+    const allowedOrigins = [
+      process.env.CORS_ORIGIN,
+      process.env.CORS_ORIGIN_LOCAL,
+      process.env.CORS_ORIGIN_CLIENT,
+    ];
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   credentials: true,
 };
 app.use(cors(corsOptions));
