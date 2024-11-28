@@ -18,7 +18,7 @@ const Messages = ({ selectedUser }) => {
     scroll.current?.scrollIntoView({ behavior: "smooth" });
   }, []);
   return (
-    <div className="overflow-y-auto flex-1 p-4">
+    <div className="overflow-y-auto flex-1 p-4 pb-28 md:pb-0 ">
       <div className="flex justify-center">
         <div className="flex flex-col items-center justify-center">
           <Avatar className="h-20 w-20">

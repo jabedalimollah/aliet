@@ -79,6 +79,7 @@ const LeftSidebar = () => {
         dispatch(setMessages([]));
         dispatch(setLikeNotification([]));
         localStorage.removeItem("persist:root");
+        localStorage.removeItem("aliet");
         // persistor.purge().then(() => {
         //   console.log("User logged out and state cleared.");
         //   // localStorage.removeItem("persist:root");

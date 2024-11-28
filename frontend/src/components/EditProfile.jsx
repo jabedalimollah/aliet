@@ -32,7 +32,7 @@ const EditProfile = () => {
     gender: null,
   });
   const [loading, setLoading] = useState(false);
-
+  const [imagePreview, setImagePreview] = useState(null);
   const imageRef = useRef();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -41,7 +41,14 @@ const EditProfile = () => {
     const file = e.target.files[0];
     if (file) {
       setInput({ ...input, profilePicture: file });
+      setImagePreview(URL.createObjectURL(file));
     }
+    // const file = e.target.files[0];
+    // if (file) {
+    //   setProfilePic(file);
+    //   setPreview(URL.createObjectURL(file));
+
+    // }
   };
   const selectChangeHandler = (value) => {
     setInput({ ...input, gender: value });
@@ -104,6 +111,7 @@ const EditProfile = () => {
       bio: user?.bio,
       gender: user?.gender,
     });
+    setImagePreview(user?.profilePicture);
   }, []);
   return (
     <div className="w-full bg-purple-50 h-screen lg:h-fit">
@@ -114,7 +122,8 @@ const EditProfile = () => {
             <div className="flex items-center gap-3">
               <Avatar>
                 <AvatarImage
-                  src={user?.profilePicture || default_profile}
+                  // src={user?.profilePicture || default_profile}
+                  src={imagePreview}
                   alt="profile_image"
                 />
                 <AvatarFallback className={"bg-purple-200"}>

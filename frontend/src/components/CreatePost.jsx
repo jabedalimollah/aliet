@@ -34,6 +34,13 @@ const CreatePost = ({ open, setOpen }) => {
       setImagePreview(dataUrl);
     }
   };
+  const handeClickDialogBox = () => {
+    setOpen(false);
+    setFile("");
+    setCaption("");
+    setImagePreview("");
+    setLoading(false);
+  };
   const createPostHandler = async (e) => {
     const formData = new FormData();
     formData.append("caption", caption);
@@ -77,7 +84,8 @@ const CreatePost = ({ open, setOpen }) => {
   return (
     <>
       <Dialog open={open}>
-        <DialogContent onInteractOutside={() => setOpen(false)}>
+        {/* <DialogContent onInteractOutside={() => setOpen(false)}> */}
+        <DialogContent onInteractOutside={handeClickDialogBox}>
           <DialogTitle className="hidden" />
           <DialogDescription className={"hidden"}></DialogDescription>
           <DialogHeader className={"text-center font-semibold"}>

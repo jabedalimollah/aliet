@@ -15,7 +15,11 @@ import React, { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { setAuthUser } from "@/redux/authSlice";
+import {
+  setAuthUser,
+  setSuggestedUsers,
+  setUserProfile,
+} from "@/redux/authSlice";
 import CreatePost from "./CreatePost";
 import { setPosts, setSelectedPost } from "@/redux/postSlice";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
@@ -32,6 +36,11 @@ import {
 } from "@/components/ui/dialog";
 import { setLikeNotification } from "@/redux/notificationSlice";
 import { toast } from "react-toastify";
+import {
+  setMessages,
+  setOnlineUsers,
+  setSelectedUser,
+} from "@/redux/chatSlice";
 const token = localStorage.getItem("aliet");
 
 const Header = () => {
@@ -58,6 +67,14 @@ const Header = () => {
         dispatch(setAuthUser(null));
         dispatch(setSelectedPost(null));
         dispatch(setPosts([]));
+        dispatch(setSuggestedUsers([]));
+        dispatch(setUserProfile(null));
+        dispatch(setSelectedUser(null));
+        dispatch(setOnlineUsers([]));
+        dispatch(setMessages([]));
+        dispatch(setLikeNotification([]));
+        localStorage.removeItem("persist:root");
+        localStorage.removeItem("aliet");
         navigate("/login");
         toast.success(res.data.message, {
           position: "top-center",

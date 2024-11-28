@@ -98,16 +98,18 @@ const CommentDialog = ({ open, setOpen }) => {
             </div>
 
             <div className="w-full md:w-1/2 h-screen md:h-auto flex flex-col justify-start md:justify-between ">
-              <div className="w-full flex justify-between md:hidden p-4 fixed top-0 left-0 border-b border-gray-200">
-                <button
-                  onClick={() => setOpen(false)}
-                  className="flex items-center justify-center gap-x-1"
-                >
-                  <MdArrowBackIos /> Back
-                </button>
-                <h2 className="font-semibold">Comments</h2>
+              <div className="w-full  md:hidden fixed top-0 left-0  z-20">
+                <div className="w-full h-[12vh] md:h-auto p-4  flex justify-between items-center border-b border-gray-200 bg-white">
+                  <button
+                    onClick={() => setOpen(false)}
+                    className="flex items-center justify-center gap-x-1"
+                  >
+                    <MdArrowBackIos /> Back
+                  </button>
+                  <h2 className="font-semibold">Comments</h2>
+                </div>
               </div>
-              <div className="flex items-center justify-between p-4 bg-slate-100 mt-16 md:mt-0">
+              <div className="flex items-center justify-between p-4 bg-slate-100 mt-20 md:mt-0">
                 <div className="flex gap-3 items-center">
                   <NavLink>
                     <Avatar>
@@ -151,8 +153,8 @@ const CommentDialog = ({ open, setOpen }) => {
                 ))}
               </div>
 
-              <div className="w-full flex  p-4 fixed md:relative bottom-0 left-0 z-10 bg-white ">
-                <div className="w-full flex items-center gap-2">
+              <div className="w-full  flex  p-4 fixed md:relative bottom-0 left-0 z-10 bg-white ">
+                <div className="w-full h-[10vh] md:h-auto bg-white  flex items-center gap-2">
                   <input
                     type="text"
                     value={comment}

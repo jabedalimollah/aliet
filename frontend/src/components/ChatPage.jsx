@@ -152,7 +152,7 @@ const ChatPage = () => {
           </div>
           {/* message... */}
           <Messages selectedUser={selectedUser} />
-          <div className="flex items-center p-4 border-t border-t-gray-300">
+          <div className="w-full flex items-center p-4 border-t border-t-gray-300 fixed bottom-0 md:static md:bottom-0 lg:static z-20 bg-white">
             <Input
               type="text"
               value={message}
