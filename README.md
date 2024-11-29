@@ -34,7 +34,7 @@ ALIET is a feature-rich social media web application developed using the MERN st
 ### Social Features
 - #### Posting:
     - Create posts with text and/or media.
-    - Edit or delete existing posts.
+    - Delete existing posts.
     - Bookmark posts for later or save them to your device.
 - #### Engagement:
     - Like posts and view the total likes.
