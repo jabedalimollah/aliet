@@ -215,7 +215,7 @@ const Profile = () => {
                 </div>
               </section>
               <div className="flex md:hidden flex-col gap-1 w-full col-span-3 px-4">
-                <span className="font-semibold">{userProfile?.username}</span>
+                <span className="font-semibold">{userProfile?.name}</span>
                 <Badge variant={"secondary"} className={"w-fit"}>
                   <AtSign />
                   <span className="pl-1">{userProfile?.username}</span>

@@ -8,7 +8,7 @@ import {
 } from "./ui/dialog";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { NavLink } from "react-router-dom";
-import { MoreHorizontal } from "lucide-react";
+import { Loader2, MoreHorizontal } from "lucide-react";
 import { Button } from "./ui/button";
 import { useDispatch, useSelector } from "react-redux";
 import Comment from "./Comment";
@@ -22,7 +22,7 @@ const CommentDialog = ({ open, setOpen }) => {
   const [comment, setComment] = useState("");
   const { posts, selectedPost } = useSelector((state) => state.post);
   const [comments, setComments] = useState([]);
-
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const handleComment = (e) => {
     const inputText = e.target.value;
@@ -36,6 +36,7 @@ const CommentDialog = ({ open, setOpen }) => {
   const handleSendComment = async () => {
     // console.log(text);
     try {
+      setLoading(true);
       const res = await axios.post(
         `${import.meta.env.VITE_APP_API_KEY}/post/${selectedPost?._id}/comment`,
         { text: comment },
@@ -71,6 +72,8 @@ const CommentDialog = ({ open, setOpen }) => {
       toast.error(error.response.data.message, {
         position: "top-center",
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -84,7 +87,7 @@ const CommentDialog = ({ open, setOpen }) => {
       <Dialog open={open}>
         <DialogContent
           onInteractOutside={() => setOpen(false)}
-          className="max-m-5xl max-w-3xl p-0 flex flex-col"
+          className="max-m-5xl max-w-3xl p-0 flex flex-col h-screen md:h-[60vh] lg:h-[80vh]"
         >
           <DialogTitle className="hidden"></DialogTitle>
           <DialogDescription className="hidden"></DialogDescription>
@@ -146,7 +149,7 @@ const CommentDialog = ({ open, setOpen }) => {
                 </Dialog>
               </div>
               {/* <hr /> */}
-              <div className="flex-1 overflow-y-auto max-h-96 p-4">
+              <div className="flex-1 overflow-y-auto max-h-96s max-h-[82vh] p-4">
                 {/* comments ... */}
                 {comments.map((comment) => (
                   <Comment key={comment._id} comment={comment} />
@@ -162,13 +165,20 @@ const CommentDialog = ({ open, setOpen }) => {
                     placeholder="Add a comment..."
                     className="w-full outline-none text-sm border border-gray-300 p-2 rounded"
                   />
-                  <Button
-                    onClick={handleSendComment}
-                    variant="outline"
-                    disabled={!comment?.trim()}
-                  >
-                    Send
-                  </Button>
+                  {loading ? (
+                    <Button>
+                      <Loader2 className=" h-4 animate-spin" />
+                    </Button>
+                  ) : (
+                    <Button
+                      onClick={handleSendComment}
+                      variant="outline"
+                      disabled={!comment?.trim()}
+                      className="hover:bg-gray-300"
+                    >
+                      Send
+                    </Button>
+                  )}
                 </div>
               </div>
             </div>

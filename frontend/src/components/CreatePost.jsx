@@ -16,6 +16,7 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { setPosts } from "@/redux/postSlice";
 import { toast } from "react-toastify";
+import { IoMdClose } from "react-icons/io";
 const token = localStorage.getItem("aliet");
 const CreatePost = ({ open, setOpen }) => {
   const [file, setFile] = useState("");
@@ -34,7 +35,7 @@ const CreatePost = ({ open, setOpen }) => {
       setImagePreview(dataUrl);
     }
   };
-  const handeClickDialogBox = () => {
+  const handeCancelBtn = () => {
     setOpen(false);
     setFile("");
     setCaption("");
@@ -84,12 +85,30 @@ const CreatePost = ({ open, setOpen }) => {
   return (
     <>
       <Dialog open={open}>
-        {/* <DialogContent onInteractOutside={() => setOpen(false)}> */}
-        <DialogContent onInteractOutside={handeClickDialogBox}>
+        <DialogContent onInteractOutside={() => setOpen(false)}>
+          {/* <DialogContent onInteractOutside={handeClickDialogBox}> */}
           <DialogTitle className="hidden" />
           <DialogDescription className={"hidden"}></DialogDescription>
-          <DialogHeader className={"text-center font-semibold"}>
-            Create New Post
+          {/* <div className="w-full flex justify-end">
+            <Button
+              onClick={() => setOpen(false)}
+              className="bg-slate-200 hover:bg-red-600 text-black hover:text-white rounded-full py-2 px-3"
+            >
+              <IoMdClose />
+            </Button>
+          </div> */}
+          <DialogHeader
+            className={
+              "w-full flex flex-row items-center justify-between text-centers font-semibold"
+            }
+          >
+            <span>Create New Post</span>{" "}
+            <Button
+              onClick={() => setOpen(false)}
+              className="bg-slate-200 hover:bg-red-600 text-black hover:text-white rounded-full py-2 px-3"
+            >
+              <IoMdClose />
+            </Button>
           </DialogHeader>
           <div className="flex gap-3 items-center">
             <Avatar>
@@ -120,29 +139,34 @@ const CreatePost = ({ open, setOpen }) => {
             type="file"
             ref={imageRef}
             className="hidden"
+            accept=".jpg,.jpeg,.png"
             onChange={fileChangeHandler}
           />
           <Button
             onClick={() => imageRef.current.click()}
-            className="w-fit mx-auto bg-[#0095F6] hover:bg-[#3588bf]"
+            className="w-fit mx-auto bg-purple-500 hover:bg-purple-700"
           >
             Select Image
             {/* from computer */}
           </Button>
-          {imagePreview &&
-            (loading ? (
-              <Button>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please wait...
-              </Button>
-            ) : (
-              <Button
-                type="submit"
-                onClick={createPostHandler}
-                className="w-full"
-              >
-                Post
-              </Button>
-            ))}
+          <div className="w-full flex justify-between">
+            {imagePreview && <Button onClick={handeCancelBtn}>Cancel</Button>}{" "}
+            {imagePreview &&
+              (loading ? (
+                <Button>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please
+                  wait...
+                </Button>
+              ) : (
+                <Button
+                  type="submit"
+                  onClick={createPostHandler}
+                  className="bg-blue-500"
+                >
+                  Post
+                </Button>
+              ))}
+          </div>
         </DialogContent>
       </Dialog>
     </>
